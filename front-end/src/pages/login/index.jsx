@@ -2,20 +2,9 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Context from '../../context/context';
-import makeLogin from '../../global/services/login.service';
-import storage from '../../global/services/storage.services';
-import Loading from '../../global/components/Loading';
-import Input from '../../global/components/shared/Input';
-import OutlineBtn from '../../global/components/shared/OutlineBtn';
-import Modal from '../../global/components/Modal';
-import {
-  IEventLogin,
-  /* IUserLogged, */
-  IUserLogin,
-} from '../../global/interfaces/user.interfaces';
-import * as C from './styles';
-
-const logo = require('../../global/assets/images/Logo Branca.png');
+// import makeLogin from '../../global/services/login.service';
+// import storage from '../../global/services/storage.services';
+// import Loading from '../../global/components/Loading';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -25,26 +14,26 @@ export default function Login() {
     setAuthorized,
     authorized,
   } = useContext(Context);
-  const [user, setUser] = useState<IUserLogin>({ email: '', password: '' });
+  const [user, setUser] = useState({ email: '', password: '' });
   const [modalOpen, setModalOpen] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const regEx = /^[\w.-]+@[\w.-]+\.[\w]+(\.[\w]+)?$/i;
   const MIN_PASS = 6;
 
-  const handleChange = ({ target }: { target: IEventLogin }) => {
+  const handleChange = ({ target }) => {
     const { name, value } = target;
     setUser({ ...user, [name]: value });
   };
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       if (user.email && user.password) {
-        const checkEmail: boolean = regEx.test(user.email);
-        const checkPassword: boolean = user.password.length >= MIN_PASS;
+        const checkEmail = regEx.test(user.email);
+        const checkPassword = user.password.length >= MIN_PASS;
         if (checkEmail && checkPassword) {
           setIsLoading(true);
-          const { email, password }: IUserLogin = user;
+          const { email, password } = user;
           const loggedUser = await makeLogin(email, password);
           storage.setSessionStorage('sessionUser', loggedUser);
           setAuthorized(true);
@@ -54,7 +43,7 @@ export default function Login() {
         throw new Error('Email ou senha inválidos');
       }
       throw new Error('Email ou senha inválidos');
-    } catch (err: any) {
+    } catch (err) {
       setIsLoading(false);
       setAuthorized(false);
       setErrorMsg(err.message);
@@ -73,14 +62,9 @@ export default function Login() {
 
   return isLoading ? (
     <Loading />
-  ) : modalOpen ? (
-    <Modal closeBtn={handleCloseModal}>
-      <h4>{`Ops... ${errorMsg}`}</h4>
-    </Modal>
   ) : (
-    <C.Main>
-      <C.Logo src={logo} alt="Astrum Bank" />
-      <C.LoginForm onSubmit={handleSubmit}>
+    <main>
+      <Form onSubmit={handleSubmit}>
         <Input
           aria-label="email"
           id="email"
@@ -99,11 +83,11 @@ export default function Login() {
           value={user.password}
           onChange={handleChange}
         />
-        <OutlineBtn type="submit">Entrar</OutlineBtn>
-        <OutlineBtn type="button" onClick={() => navigate('/cadastro')}>
+        <button type="submit">Entrar</button>
+        <button type="button" onClick={() => navigate('/cadastro')}>
           Cadastre-se!
-        </OutlineBtn>
-      </C.LoginForm>
-    </C.Main>
+        </button>
+      </Form>
+    </main>
   );
 }
