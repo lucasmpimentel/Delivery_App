@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Context from '../../context/context';
 // import makeLogin from '../../global/services/login.service';
 // import storage from '../../global/services/storage.services';
-// import Loading from '../../global/components/Loading';
+import Loading from '../../components/Loading';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -15,8 +15,6 @@ export default function Login() {
     authorized,
   } = useContext(Context);
   const [user, setUser] = useState({ email: '', password: '' });
-  const [modalOpen, setModalOpen] = useState(false);
-  const [errorMsg, setErrorMsg] = useState('');
   const regEx = /^[\w.-]+@[\w.-]+\.[\w]+(\.[\w]+)?$/i;
   const MIN_PASS = 6;
 
@@ -51,8 +49,6 @@ export default function Login() {
     }
   };
 
-  const handleCloseModal = () => setModalOpen(false);
-
   useEffect(() => {
     const userLogged = storage.getSessionStorage('sessionUser');
     if (authorized || userLogged) {
@@ -64,30 +60,30 @@ export default function Login() {
     <Loading />
   ) : (
     <main>
-      <Form onSubmit={handleSubmit}>
-        <Input
+      <form onSubmit={ handleSubmit }>
+        <input
           aria-label="email"
           id="email"
           type="email"
           name="email"
           placeholder="Email"
-          value={user.email}
-          onChange={handleChange}
+          value={ user.email }
+          onChange={ handleChange }
         />
-        <Input
+        <input
           aria-label="password"
           id="password"
           type="password"
           name="password"
           placeholder="Senha"
-          value={user.password}
-          onChange={handleChange}
+          value={ user.password }
+          onChange={ handleChange }
         />
         <button type="submit">Entrar</button>
-        <button type="button" onClick={() => navigate('/cadastro')}>
+        <button type="button" onClick={ () => navigate('/cadastro') }>
           Cadastre-se!
         </button>
-      </Form>
+      </form>
     </main>
   );
 }

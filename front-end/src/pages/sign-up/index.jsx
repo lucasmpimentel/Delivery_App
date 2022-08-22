@@ -110,9 +110,9 @@ export default function SignUp() {
           <input type="checkbox" id="checkbox" name="checkbox" />
           Declaro que li e concordo com os termos de uso.
         </C.CBLabel>
-        <OutlineBtn type="submit">
+        <button type="submit">
           Cadastrar
-        </OutlineBtn>
+        </button>
       </C.Form>
     </C.Main>
   );
