@@ -2,13 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TbArrowBackUp } from 'react-icons/tb';
 import * as C from './styles';
-import { IEvent } from '../../global/interfaces/global.event';
-import BackBtn from '../../global/components/shared/BackBtn';
-import OutlineBtn from '../../global/components/shared/OutlineBtn';
-import Input from '../../global/components/shared/Input';
-import './index.css';
 
-export default function SingUp() {
+export default function SignUp() {
   const MIN_NAME = 3;
   const MIN_PASSWORD = 6;
   const EMAIL_REGEX = /^[\w.-]+@[\w.-]+\.[\w]+(\.[\w]+)?$/i;
@@ -22,19 +17,16 @@ export default function SingUp() {
     confirmationPassword: '',
   });
 
-  const handleChange = ({ target }: any) => {
-    const { name, value }: IEvent = target;
+  const handleChange = ({ target }) => {
+    const { name, value } = target;
     setUserState({ ...userState, [name]: value });
   };
 
-  const checkPassword = (password: string, confirmation: string) => {
-    if (password === confirmation && password.length >= MIN_PASSWORD) {
-      return true;
-    }
-    return false;
-  };
+  const checkPassword = (password, confirmation) => (
+    !!(password === confirmation && password.length >= MIN_PASSWORD)
+  );
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const validName = userState.name.length > MIN_NAME;
     const validEmail = EMAIL_REGEX.test(userState.email);
@@ -54,55 +46,55 @@ export default function SingUp() {
 
   return (
     <C.Main>
-      <BackBtn
+      <button
         type="button"
         name="btnSplashScreen"
-        onClick={() => navigate('/')}
+        onClick={ () => navigate('/') }
       >
         <TbArrowBackUp />
-      </BackBtn>
+      </button>
       <C.Title>Cadastro</C.Title>
-      <C.Form onSubmit={handleSubmit}>
-        <Input
+      <C.Form onSubmit={ handleSubmit }>
+        <input
           type="text"
           name="name"
           aria-label="name"
-          value={userState.name}
-          onChange={handleChange}
+          value={ userState.name }
+          onChange={ handleChange }
           placeholder="Nome"
         />
-        <Input
+        <input
           type="text"
           name="lastname"
           aria-label="lastname"
-          value={userState.lastname}
-          onChange={handleChange}
+          value={ userState.lastname }
+          onChange={ handleChange }
           placeholder="Sobrenome"
         />
-        <Input
+        <input
           type="email"
           name="email"
           aria-label="email"
-          value={userState.email}
-          onChange={handleChange}
+          value={ userState.email }
+          onChange={ handleChange }
           placeholder="Email"
         />
-        <Input
+        <input
           type="password"
           aria-label="password"
-          min={MIN_PASSWORD}
+          min={ MIN_PASSWORD }
           name="userPassword"
-          value={userState.userPassword}
-          onChange={handleChange}
+          value={ userState.userPassword }
+          onChange={ handleChange }
           placeholder="Senha"
         />
-        <Input
+        <input
           type="password"
-          min={MIN_PASSWORD}
+          min={ MIN_PASSWORD }
           aria-label="confirmPassword"
           name="confirmationPassword"
-          value={userState.confirmationPassword}
-          onChange={handleChange}
+          value={ userState.confirmationPassword }
+          onChange={ handleChange }
           placeholder="Confirme sua senha"
         />
         <C.Pass
