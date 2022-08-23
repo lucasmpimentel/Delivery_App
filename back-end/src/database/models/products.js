@@ -5,8 +5,7 @@ const Products = (sequelize, DataTypes) => {
       id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
       name: DataTypes.STRING,
       price: DataTypes.DECIMAL,
-      url_image: { type: DataTypes.STRING, foreignKey: true },
-      role: DataTypes.DATE,
+      url_image: DataTypes.STRING,
     },
     {
       timestamps: false,
