@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TbArrowBackUp } from 'react-icons/tb';
 // import * as C from './styles';
+import Swal from 'sweetalert2';
 
 export default function Register() {
   const MIN_NAME = 3;
@@ -33,7 +34,15 @@ export default function Register() {
       } */
       navigate('/');
     } else {
-      global.alert('Dados Incorretos');
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        footer: `
+        <span data-testid="common_register__element-invalid_register">
+          Invalid register
+        </span>`,
+      });
+      // global.alert('Dados Incorretos');
     }
   };
 
@@ -51,22 +60,16 @@ export default function Register() {
         <input
           type="text"
           name="name"
+          data-testid="common_register__input-name"
           aria-label="name"
           value={ userState.name }
           onChange={ handleChange }
           placeholder="Nome"
         />
         <input
-          type="text"
-          name="lastname"
-          aria-label="lastname"
-          value={ userState.lastname }
-          onChange={ handleChange }
-          placeholder="Sobrenome"
-        />
-        <input
           type="email"
           name="email"
+          data-testid="common_register__input-email"
           aria-label="email"
           value={ userState.email }
           onChange={ handleChange }
@@ -74,6 +77,7 @@ export default function Register() {
         />
         <input
           type="password"
+          data-testid="common_register__input-password"
           aria-label="password"
           min={ MIN_PASSWORD }
           name="userPassword"
@@ -85,7 +89,7 @@ export default function Register() {
           <input type="checkbox" id="checkbox" name="checkbox" />
           Declaro que li e concordo com os termos de uso.
         </label>
-        <button type="submit">
+        <button data-testid="common_register__button-register" type="submit">
           Cadastrar
         </button>
       </form>
