@@ -9,8 +9,8 @@ const jwtConfig = {
 };
 // processo de criação do token, enviando o payload que fica acessível no front
 
-const generateJWTToken = ({ id, displayName, email, password, image }) =>
-  jwt.sign({ id, displayName, email, password, image }, JWT_SECRET, jwtConfig);
+const generateJWTToken = ({ id, name, email, role }) =>
+  jwt.sign({ id, name, email, role }, JWT_SECRET, jwtConfig);
 
 // validação do token e vendo se bate com a assinatura
 
