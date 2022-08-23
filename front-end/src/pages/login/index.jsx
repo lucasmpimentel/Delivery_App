@@ -1,5 +1,5 @@
 /* eslint-disable no-nested-ternary */
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Context from '../../context/context';
 // import makeLogin from '../../global/services/login.service';
@@ -12,7 +12,7 @@ export default function Login() {
     isLoading,
     setIsLoading,
     setAuthorized,
-    authorized,
+    // authorized,
   } = useContext(Context);
   const [user, setUser] = useState({ email: '', password: '' });
   const regEx = /^[\w.-]+@[\w.-]+\.[\w]+(\.[\w]+)?$/i;
@@ -31,9 +31,9 @@ export default function Login() {
         const checkPassword = user.password.length >= MIN_PASS;
         if (checkEmail && checkPassword) {
           setIsLoading(true);
-          const { email, password } = user;
-          const loggedUser = await makeLogin(email, password);
-          storage.setSessionStorage('sessionUser', loggedUser);
+          // const { email, password } = user;
+          // const loggedUser = await makeLogin(email, password);
+          // storage.setSessionStorage('sessionUser', loggedUser);
           setAuthorized(true);
           setIsLoading(false);
           return navigate('/');
@@ -49,12 +49,12 @@ export default function Login() {
     }
   };
 
-  useEffect(() => {
-    const userLogged = storage.getSessionStorage('sessionUser');
-    if (authorized || userLogged) {
-      navigate('/');
-    }
-  }, [authorized]);
+  // useEffect(() => {
+  //   const userLogged = storage.getSessionStorage('sessionUser');
+  //   if (authorized || userLogged) {
+  //     navigate('/');
+  //   }
+  // }, [authorized]);
 
   return isLoading ? (
     <Loading />
