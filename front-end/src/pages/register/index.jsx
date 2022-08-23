@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { TbArrowBackUp } from 'react-icons/tb';
 // import * as C from './styles';
 
-export default function SignUp() {
+export default function Register() {
   const MIN_NAME = 3;
   const MIN_PASSWORD = 6;
   const EMAIL_REGEX = /^[\w.-]+@[\w.-]+\.[\w]+(\.[\w]+)?$/i;
