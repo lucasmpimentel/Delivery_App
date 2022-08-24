@@ -3,7 +3,7 @@ import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import Context from '../../context/context';
-// import makeLogin from '../../global/services/login.service';
+import makeLogin from '../../services/login.service';
 // import storage from '../../global/services/storage.services';
 import Loading from '../../components/Loading';
 
@@ -43,9 +43,9 @@ export default function Login() {
         const checkPassword = user.password.length >= MIN_PASS;
         if (checkEmail && checkPassword) {
           setIsLoading(true);
-          // const { email, password } = user;
-          // const loggedUser = await makeLogin(email, password);
-          // storage.setSessionStorage('sessionUser', loggedUser);
+          const { email, password } = user;
+          const loggedUser = await makeLogin(email, password);
+          storage.setSessionStorage('sessionUser', loggedUser);
           setAuthorized(true);
           setIsLoading(false);
           return navigate('/');
