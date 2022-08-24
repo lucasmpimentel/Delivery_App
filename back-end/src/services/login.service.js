@@ -1,5 +1,5 @@
 const md5 = require('md5');
-const { Users } = require('../database/models'); // para fazer a consulta no banco
+const { user } = require('../database/models'); // para fazer a consulta no banco
 const { generateJWTToken } = require('../utils/jwt');
 const { constructError } = require('../middleware/middleware.error');
 
@@ -9,14 +9,14 @@ const authenticate = async ({ email, password }) => {
   if (!email || !password) {
     throw constructError(401, 'Campos faltantes.');
   }
-  const user = await Users.findOne({
+  const userFound = await user.findOne({
     where: { email, password: encrypted },
   });
 
-  if (!user) {
+  if (!userFound) {
     throw constructError(400, 'User or password invalid');
   }
-  const token = generateJWTToken(user);
+  const token = generateJWTToken(userFound);
   return token;
 };
 module.exports = { authenticate };
