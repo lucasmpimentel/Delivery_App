@@ -5,7 +5,6 @@ const { constructError } = require('../middleware/middleware.error');
 
 const authenticate = async ({ email, password }) => {
   const encrypted = md5(password);
-  console.log(encrypted);
 
   if (!email || !password) {
     throw constructError(401, 'Campos faltantes.');
