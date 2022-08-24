@@ -1,4 +1,3 @@
-/* eslint-disable no-nested-ternary */
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
@@ -42,12 +41,13 @@ export default function Login() {
         }
         const checkPassword = user.password.length >= MIN_PASS;
         if (checkEmail && checkPassword) {
-          setIsLoading(true);
+          // setIsLoading(true);
+          console.log('makeLogin');
           const { email, password } = user;
           const loggedUser = await makeLogin(email, password);
           storage.setSessionStorage('sessionUser', loggedUser);
           setAuthorized(true);
-          setIsLoading(false);
+          // setIsLoading(false);
           return navigate('/');
         }
         throw new Error('Email ou senha inválidos');
@@ -93,7 +93,13 @@ export default function Login() {
           value={ user.password }
           onChange={ handleChange }
         />
-        <button data-testid="common_login__button-login" type="submit">Entrar</button>
+        <button
+          data-testid="common_login__button-login"
+          type="button"
+          onClick={ handleSubmit }
+        >
+          Entrar
+        </button>
         <button
           data-testid="common_login__button-register"
           type="button"

@@ -5,8 +5,8 @@ const URL = process.env.REACT_APP_HOSTNAME;
 const PORT = process.env.REACT_APP_BACKEND_PORT;
 
 const host = axios.create({
-  baseURL: `${URL}:${PORT}`,
-  timeout: Number(process.env.REACT_APP_TIMEOUT),
+  baseURL: `http://${URL}:${PORT}`,
+  timeout: 10000,
 });
 
 async function makeLogin(email, password) {
