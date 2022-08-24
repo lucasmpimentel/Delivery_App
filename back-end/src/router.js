@@ -10,4 +10,6 @@ router.use('/login', validateLogin, loginController);
 
 router.use('/products', authenticateMiddleware, productsController);
 
+router.use('/checkout', checkoutController)
+
 module.exports = router;
