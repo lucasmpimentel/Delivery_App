@@ -14,7 +14,7 @@ const authenticate = async ({ email, password }) => {
   });
 
   if (!userFound) {
-    throw constructError(400, 'User or password invalid');
+    throw constructError(404, 'User or password invalid');
   }
   const token = generateJWTToken(userFound);
   return token;
