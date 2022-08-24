@@ -11,7 +11,7 @@ export default function Index() {
       <Route path="/login" element={ <Login /> } />
       <Route path="/register" element={ <Register /> } />
       <Route path="/" element={ <Authorizer /> }>
-        <Route path="" element={ <Home /> } />
+        <Route path="customer/products" element={ <Home /> } />
       </Route>
     </Routes>
   );
