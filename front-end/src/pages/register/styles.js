@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const Main = styled.main`align-items: flex-start;
   background-color: ${({ theme }) => theme.colors.background};
-  background-image: url(${bg});
+  /* background-image: url(${bg}); */
   background-position: center top -250px;
   background-repeat: no-repeat;
   background-size: 400%;
