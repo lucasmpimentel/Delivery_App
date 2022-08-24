@@ -1,7 +1,13 @@
 const express = require('express');
+require('express-async-errors');
+const middleware = require('../middleware/middleware.error');
 
 const app = express();
 
-app.get('/coffee', (_req, res) => res.status(418).end());
+app.use(express.json());
+
+app.use(require('../router'));
+
+app.use(middleware.midError); 
 
 module.exports = app;
