@@ -35,10 +35,10 @@ module.exports = {
       },
       status: {
         type: Sequelize.STRING,
+        defaultValue: "Pendente",
       },
-      createdAt: {
+      sale_date: {
         allowNull: false,
-        field: 'sale_date',
         type: Sequelize.DATE,
         defaultValue: Sequelize.fn('now'),
       },

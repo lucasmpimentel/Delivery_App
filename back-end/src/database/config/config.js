@@ -18,10 +18,11 @@ const options = {
   username: process.env.MYSQL_USER || 'root',
   password: process.env.MYSQL_PASSWORD || 'password',
   dialect: 'mysql',
+  define: { timestamps: false },
   dialectOptions: {
     timezone: 'Z',
   },
-  logging: false,
+  logging: true,
 };
 
 module.exports = {
