@@ -1,10 +1,8 @@
-/* eslint-disable no-nested-ternary */
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Swal from 'sweetalert2';
 import Context from '../../context/context';
-// import makeLogin from '../../global/services/login.service';
-// import storage from '../../global/services/storage.services';
+import makeLogin from '../../services/login.service';
+import storage from '../../utils/storage';
 import Loading from '../../components/Loading';
 
 export default function Login() {
@@ -16,6 +14,7 @@ export default function Login() {
     // authorized,
   } = useContext(Context);
   const [user, setUser] = useState({ email: '', password: '' });
+  const [isDisabled, setIsDisabled] = useState(true);
   const regEx = /^[\w.-]+@[\w.-]+\.[\w]+(\.[\w]+)?$/i;
   const MIN_PASS = 6;
 
@@ -24,35 +23,28 @@ export default function Login() {
     setUser({ ...user, [name]: value });
   };
 
+  useEffect(() => {
+    const testEmail = regEx.test(user.email);
+    const testPass = user.password.length >= MIN_PASS;
+    if (testEmail && testPass) {
+      setIsDisabled(false);
+    } else {
+      setIsDisabled(true);
+    }
+  }, [user]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      if (user.email && user.password) {
-        const checkEmail = regEx.test(user.email);
-        if (!checkEmail) {
-          Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            // text: 'Something went wrong!',
-            footer: `
-            <span data-testid="common_login__element-invalid-email">
-              Invalid email
-            </span>`,
-          });
-        }
-        const checkPassword = user.password.length >= MIN_PASS;
-        if (checkEmail && checkPassword) {
-          setIsLoading(true);
-          // const { email, password } = user;
-          // const loggedUser = await makeLogin(email, password);
-          // storage.setSessionStorage('sessionUser', loggedUser);
-          setAuthorized(true);
-          setIsLoading(false);
-          return navigate('/');
-        }
-        throw new Error('Email ou senha inválidos');
-      }
-      throw new Error('Email ou senha inválidos');
+      // setIsLoading(true);
+      console.log('makeLogin');
+      const { email, password } = user;
+      const loggedUser = await makeLogin(email, password);
+      console.log(loggedUser);
+      storage.setSessionStorage('sessionUser', loggedUser);
+      setAuthorized(true);
+      // setIsLoading(false);
+      return navigate('/customer/products');
     } catch (err) {
       setIsLoading(false);
       setAuthorized(false);
@@ -61,12 +53,12 @@ export default function Login() {
     }
   };
 
-  // useEffect(() => {
-  //   const userLogged = storage.getSessionStorage('sessionUser');
-  //   if (authorized || userLogged) {
-  //     navigate('/');
-  //   }
-  // }, [authorized]);
+  /* useEffect(() => {
+    const userLogged = storage.getSessionStorage('sessionUser');
+    if (authorized || userLogged) {
+      navigate('/customer/products');
+    }
+  }, [authorized]); */
 
   return isLoading ? (
     <Loading />
@@ -93,7 +85,14 @@ export default function Login() {
           value={ user.password }
           onChange={ handleChange }
         />
-        <button data-testid="common_login__button-login" type="submit">Entrar</button>
+        <button
+          data-testid="common_login__button-login"
+          type="button"
+          disabled={ isDisabled }
+          onClick={ handleSubmit }
+        >
+          Entrar
+        </button>
         <button
           data-testid="common_login__button-register"
           type="button"
