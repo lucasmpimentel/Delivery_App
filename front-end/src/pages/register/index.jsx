@@ -1,17 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TbArrowBackUp } from 'react-icons/tb';
+import register from '../../services/register.service';
 // import * as C from './styles';
-import Swal from 'sweetalert2';
 
 export default function Register() {
-  const MIN_NAME = 3;
+  const MAX_NAME = 12;
   const MIN_PASSWORD = 6;
   const EMAIL_REGEX = /^[\w.-]+@[\w.-]+\.[\w]+(\.[\w]+)?$/i;
   const navigate = useNavigate();
   const [userState, setUserState] = useState({
     name: '',
-    lastname: '',
     email: '',
     userPassword: '',
   });
@@ -21,28 +20,28 @@ export default function Register() {
     setUserState({ ...userState, [name]: value });
   };
 
+  useEffect(() => {
+    const testName = userState.name.length < MAX_NAME;
+    const testEmail = EMAIL_REGEX.test(user.email);
+    const testPass = user.password.length >= MIN_PASS;
+    if (testEmail && testPass && testName) {
+      setIsDisabled(false);
+    } else {
+      setIsDisabled(true);
+    }
+  }, [userState]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const validName = userState.name.length > MIN_NAME;
-    const validEmail = EMAIL_REGEX.test(userState.email);
-    if (validName && validEmail && validPass) {
-      /* const resp = await singUpConnection(singup);
-      if (resp === 'Sucess') {
-        navigate('/login');
-      } else {
-        global.alert(resp.message);
-      } */
-      navigate('/');
-    } else {
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        footer: `
-        <span data-testid="common_register__element-invalid_register">
-          Invalid register
-        </span>`,
-      });
-      // global.alert('Dados Incorretos');
+    try {
+      const { email, password } = userState;
+      const loggedUser = await register(email, password);
+      console.log(loggedUser);
+      storage.setSessionStorage('sessionUser', loggedUser);
+      setAuthorized(true);
+      return navigate('/customer/products');
+    } catch (err) {
+      setAuthorized(false);
     }
   };
 
