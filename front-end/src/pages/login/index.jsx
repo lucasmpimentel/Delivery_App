@@ -46,7 +46,7 @@ export default function Login() {
       // setIsLoading(false);
       return navigate('/customer/products');
     } catch (err) {
-      setIsLoading(false);
+      // setIsLoading(false);
       setAuthorized(false);
       // setErrorMsg(err.message);
       // return setModalOpen(true);
