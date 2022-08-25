@@ -5,7 +5,7 @@ const productsService = require('../services/products.service');
 const productsRouter = express.Router();
 
 productsRouter.get('/', async (req, res) => {
-  const products = await productsService.findAll(req.body);
+  const products = await productsService.findAll();
   res.status(200).json(products);
 });
 
