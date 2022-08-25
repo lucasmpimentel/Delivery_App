@@ -1,5 +1,3 @@
-const express = require('express');
-
 const productsService = require('../services/products.service');
 
 const getAllProducts = async (req, res) => {

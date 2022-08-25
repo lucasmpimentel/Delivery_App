@@ -3,12 +3,12 @@ const Sales = (sequelize, DataTypes) => {
     'Sales',
     {
       id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-      user_id: DataTypes.INTEGER,
-      seller_id: DataTypes.INTEGER,
-      total_price: DataTypes.DECIMAL,
-      delivery_address: DataTypes.STRING,
-      delivery_number: DataTypes.STRING,
-      sale_date: DataTypes.DATE,
+      userId: DataTypes.INTEGER,
+      sellerId: DataTypes.INTEGER,
+      totalPrice: DataTypes.DECIMAL,
+      deliveryAddress: DataTypes.STRING,
+      deliveryNumber: DataTypes.STRING,
+      saleDate: DataTypes.DATE,
       status: DataTypes.STRING,
     },
     {
@@ -17,6 +17,7 @@ const Sales = (sequelize, DataTypes) => {
     },
     {
       timestamps: false,
+      underscore: true
     }
   );
   return Sales;
