@@ -2,8 +2,8 @@ import axios from 'axios';
 import jwt from 'jwt-decode';
 import Swal from 'sweetalert2';
 
-const URL = localhost; /* process.env.REACT_APP_HOSTNAME */
-const PORT = 3001; /* process.env.REACT_APP_BACKEND_PORT; */
+const URL = process.env.REACT_APP_HOSTNAME;
+const PORT = process.env.REACT_APP_BACKEND_PORT;
 
 const host = axios.create({
   baseURL: `http://${URL}:${PORT}`,
