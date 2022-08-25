@@ -1,20 +1,28 @@
 const { Sales, SalesProduct } = require('../database/models');
-const { sequelize } = require('../database/models')
+const { sequelize } = require('../database/models');
+const { constructError } = require('../middleware/middleware.error');
 
 const create = async ({
   user_id,seller_id, total_price, delivery_address, delivery_number,
-  product_id, quantity,}) => {
+  itens}, id) => {
+  if(id !== Number(user_id)) {
+    throw constructError(401, "Não autorizado") 
+  }
 
-  await sequelize.transaction(async function (transaction) {
+  const newSale = await sequelize.transaction(async function (transaction) {
     const allSales = await Sales.create({
       user_id,seller_id, total_price, delivery_address,
       delivery_number},
     { transaction });
-     const salesProductTest = await SalesProduct.create({
-      sale_id: allSales.id, product_id, quantity,
-    }, { transaction });
-    console.log(" salesProductTest ==>", salesProductTest);
-    return allSales; });
+
+    const formatForBulk = itens.map((item) => ({
+      sale_id: allSales.id, product_id: item.product_id, quantity: item.quantity, 
+    })); 
+
+    await SalesProduct.bulkCreate(formatForBulk, { transaction });
+    return allSales.id;
+  });
+  return newSale;
 };
 
 module.exports = { create };
