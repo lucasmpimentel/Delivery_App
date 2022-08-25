@@ -19,4 +19,18 @@ const authenticate = async ({ email, password }) => {
   const token = generateJWTToken(userFound);
   return token;
 };
-module.exports = { authenticate };
+
+const createUser = async ({ name, password, email, role }) => {
+  const encrypted = md5(password);
+
+  const createdUser = await user.create({
+    email,
+    password: encrypted,
+    name,
+    role,
+  });
+
+  return generateJWTToken(createdUser);
+};
+
+module.exports = { authenticate, createUser };
