@@ -40,7 +40,7 @@ module.exports = {
         type: Sequelize.STRING,
         defaultValue: "Pendente",
       },
-      saleDate: {
+      sale_date: {
         allowNull: false,
         type: Sequelize.DATE,
         defaultValue: Sequelize.fn('now'),
