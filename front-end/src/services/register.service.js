@@ -10,11 +10,14 @@ const host = axios.create({
   timeout: 10000,
 });
 
-export default async function register(user) {
+export default async function register(name, email, password) {
+  const user = { name, email, password, role: 'customer' };
   try {
     const { data } = await host.post('/register', user);
-    const userToken = jwt(data);
-    return { ...userToken.data, token: data };
+    console.log({ data });
+    const userToken = jwt(data.token);
+    console.log({ userToken });
+    return { ...userToken, ...data };
   } catch (err) {
     Swal.fire({
       icon: 'error',
