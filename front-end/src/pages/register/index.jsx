@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TbArrowBackUp } from 'react-icons/tb';
-import register from '../../services/register.service';
-// import * as C from './styles';
 import Context from '../../context/context';
+import register from '../../services/register.service';
+import storage from '../../utils/storage';
+// import * as C from './styles';
 
 export default function Register() {
-  const MAX_NAME = 12;
+  const MIN_NAME = 12;
   const MIN_PASSWORD = 6;
   const EMAIL_REGEX = /^[\w.-]+@[\w.-]+\.[\w]+(\.[\w]+)?$/i;
   const navigate = useNavigate();
@@ -27,7 +28,7 @@ export default function Register() {
   };
 
   useEffect(() => {
-    const testName = userState.name.length < MAX_NAME;
+    const testName = userState.name.length >= MIN_NAME;
     const testEmail = EMAIL_REGEX.test(userState.email);
     const testPass = userState.userPassword.length >= MIN_PASSWORD;
     if (testEmail && testPass && testName) {
@@ -41,7 +42,6 @@ export default function Register() {
     e.preventDefault();
     try {
       const { name, email, userPassword } = userState;
-      console.log('users info', email, userPassword);
       const loggedUser = await register(name, email, userPassword);
       console.log(loggedUser);
       storage.setSessionStorage('sessionUser', loggedUser);

@@ -23,7 +23,6 @@ const validateLogin = (req, res, next) => {
 };
 
 const validateRegistration = (req, res, next) => {
-  console.log('req body no validate registration', req.body);
   const { error } = registrationSchema.validate(req.body);
   if (error) {
     return res.status(400).json({
