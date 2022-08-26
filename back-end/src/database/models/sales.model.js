@@ -1,6 +1,6 @@
-const Sales = (sequelize, DataTypes) => {
-  const Sales = sequelize.define(
-    'Sales',
+const SaleSchema = (sequelize, DataTypes) => {
+  const SaleTable = sequelize.define(
+    'sale',
     {
       id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
       userId: DataTypes.INTEGER,
@@ -9,18 +9,13 @@ const Sales = (sequelize, DataTypes) => {
       deliveryAddress: DataTypes.STRING,
       deliveryNumber: DataTypes.STRING,
       saleDate: DataTypes.DATE,
-      status: DataTypes.STRING,
+      status: DataTypes.STRING
     },
     {
-      sequelize,
-      modelName: 'Sales',
-    },
-    {
-      timestamps: false,
-      underscore: true
+      underscored: true
     }
   );
-  return Sales;
+  return SaleTable;
 };
 
-module.exports = Sales;
+module.exports = SaleSchema;
