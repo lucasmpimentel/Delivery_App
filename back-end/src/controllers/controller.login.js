@@ -7,6 +7,7 @@ const loginUser = async (req, res) => {
 
 const registerUser = async (req, res) => {
   const token = await loginService.createUser(req.body);
+  console.log('resposta do createuser no controller de login', token)
   res.status(200).json({ token });
 };
 

@@ -10,8 +10,10 @@ const host = axios.create({
   timeout: 10000,
 });
 
-export default async function register(user) {
+export default async function register(name, email, password) {
+  const user = { name, email, password, role: costumer };
   try {
+    console.log('user no register service', user);
     const { data } = await host.post('/register', user);
     const userToken = jwt(data);
     return { ...userToken.data, token: data };
