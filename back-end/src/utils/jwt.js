@@ -3,7 +3,6 @@ const fs = require('fs');
 const { constructError } = require('../middleware/middleware.error');
 
 const JWT_SECRET = fs.readFileSync('jwt.evaluation.key', 'utf-8');
-console.log({ JWT_SECRET });
 // const { JWT_SECRET } = process.env; 
 
 const jwtConfig = {
