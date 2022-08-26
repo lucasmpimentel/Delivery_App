@@ -11,3 +11,8 @@ const registerUser = async (req, res) => {
 };
 
 module.exports = { loginUser, registerUser };
+
+/* {
+  "email": "fulana@deliveryapp.com",
+  "password:": "fulana@123"
+} */
