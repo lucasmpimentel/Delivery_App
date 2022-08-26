@@ -6,7 +6,7 @@ const User = (sequelize, DataTypes) => {
       name: DataTypes.STRING,
       email: DataTypes.STRING,
       password: { type: DataTypes.INTEGER, foreignKey: true },
-      role: DataTypes.DATE,
+      role: DataTypes.STRING,
     },
     {
       timestamps: false,
