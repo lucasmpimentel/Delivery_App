@@ -1,6 +1,6 @@
-const User = (sequelize, DataTypes) => {
-  const User = sequelize.define(
-    'user',
+const UserSchema = (sequelize, DataTypes) => {
+  const UserTable = sequelize.define(
+    "user",
     {
       id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
       name: DataTypes.STRING,
@@ -12,7 +12,15 @@ const User = (sequelize, DataTypes) => {
       timestamps: false,
     }
   );
-  return User;
+  UserTable.associate = (models) => {
+    UserTable.hasMany(models.sale, { foreignKey: 'userId' });
+  };
+  
+  UserTable.associate = (models) => {
+    UserTable.hasMany(models.sale, { foreignKey: 'sellerId' });
+  };
+  return UserTable;
 };
 
-module.exports = User;
+
+module.exports = UserSchema;
