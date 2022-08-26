@@ -1,19 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TbArrowBackUp } from 'react-icons/tb';
 import register from '../../services/register.service';
 // import * as C from './styles';
+import Context from '../../context/context';
 
 export default function Register() {
   const MAX_NAME = 12;
   const MIN_PASSWORD = 6;
   const EMAIL_REGEX = /^[\w.-]+@[\w.-]+\.[\w]+(\.[\w]+)?$/i;
   const navigate = useNavigate();
+  const {
+    setAuthorized,
+    // authorized,
+  } = useContext(Context);
   const [userState, setUserState] = useState({
     name: '',
     email: '',
     userPassword: '',
   });
+  const [isDisabled, setIsDisabled] = useState(true);
 
   const handleChange = ({ target }) => {
     const { name, value } = target;
@@ -22,8 +28,8 @@ export default function Register() {
 
   useEffect(() => {
     const testName = userState.name.length < MAX_NAME;
-    const testEmail = EMAIL_REGEX.test(user.email);
-    const testPass = user.password.length >= MIN_PASS;
+    const testEmail = EMAIL_REGEX.test(userState.email);
+    const testPass = userState.userPassword.length >= MIN_PASSWORD;
     if (testEmail && testPass && testName) {
       setIsDisabled(false);
     } else {
@@ -34,8 +40,9 @@ export default function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const { email, password } = userState;
-      const loggedUser = await register(email, password);
+      const { name, email, userPassword } = userState;
+      console.log('users info', email, userPassword);
+      const loggedUser = await register(name, email, userPassword);
       console.log(loggedUser);
       storage.setSessionStorage('sessionUser', loggedUser);
       setAuthorized(true);
@@ -88,7 +95,11 @@ export default function Register() {
           <input type="checkbox" id="checkbox" name="checkbox" />
           Declaro que li e concordo com os termos de uso.
         </label>
-        <button data-testid="common_register__button-register" type="submit">
+        <button
+          data-testid="common_register__button-register"
+          type="submit"
+          disabled={ isDisabled }
+        >
           Cadastrar
         </button>
       </form>
