@@ -3,7 +3,7 @@
 module.exports = {
   up: async (queryInterface, _Sequelize) => {
     await queryInterface.bulkInsert(
-      'Products',
+      'products',
       [
         {
           id: 1,

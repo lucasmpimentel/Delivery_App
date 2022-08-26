@@ -1,7 +1,7 @@
 ('use strict');
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Sales', {
+    await queryInterface.createTable('sales', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -11,6 +11,9 @@ module.exports = {
       user_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+        primaryKey: true,
         references: {
           model: 'users',
           key: 'id',
@@ -35,16 +38,16 @@ module.exports = {
       },
       status: {
         type: Sequelize.STRING,
+        defaultValue: "Pendente",
       },
-      createdAt: {
+      sale_date: {
         allowNull: false,
-        field: 'sale_date',
         type: Sequelize.DATE,
         defaultValue: Sequelize.fn('now'),
       },
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Sales');
+    await queryInterface.dropTable('sales');
   },
 };

@@ -2,7 +2,7 @@ const { authenticateToken } = require('../utils/jwt');
 
 const authenticateMiddleware = (req, res, next) => {
   const token = req.headers.authorization;
-  authenticateToken(token);
+  res.locals.id = authenticateToken(token).id;
   next();
 };
 
