@@ -9,7 +9,7 @@ export default function Login() {
   const navigate = useNavigate();
   const {
     isLoading,
-    setIsLoading,
+    // setIsLoading,
     setAuthorized,
     // authorized,
   } = useContext(Context);
@@ -46,7 +46,7 @@ export default function Login() {
       // setIsLoading(false);
       return navigate('/customer/products');
     } catch (err) {
-      setIsLoading(false);
+      // setIsLoading(false);
       setAuthorized(false);
       // setErrorMsg(err.message);
       // return setModalOpen(true);
@@ -96,7 +96,7 @@ export default function Login() {
         <button
           data-testid="common_login__button-register"
           type="button"
-          onClick={ () => navigate('/cadastro') }
+          onClick={ () => navigate('/register') }
         >
           Cadastre-se!
         </button>
