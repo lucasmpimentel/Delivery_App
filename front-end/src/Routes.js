@@ -4,6 +4,7 @@ import Authorizer from './hooks/Authorizer';
 import Login from './pages/login';
 import Register from './pages/register';
 import Home from './pages/home';
+import Checkout from './pages/checkout';
 
 export default function Index() {
   return (
@@ -12,6 +13,7 @@ export default function Index() {
       <Route path="/register" element={ <Register /> } />
       <Route path="/" element={ <Authorizer /> }>
         <Route path="customer/products" element={ <Home /> } />
+        <Route path="customer/checkout" element={ <Checkout /> } />
       </Route>
     </Routes>
   );
