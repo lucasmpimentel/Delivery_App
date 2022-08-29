@@ -15,4 +15,10 @@ const getSalesAndProducts = async (req, res) => {
   res.status(200).json(products);
 };
 
-module.exports = { getAllSales, getSale, getSalesAndProducts };
+const getSaleByUserId = async (req, res) => {
+  const { id } = req.params;
+  const response = await salesService.findSaleByUserId(id);
+  res.status(200).json(response);
+};
+
+module.exports = { getAllSales, getSale, getSalesAndProducts, getSaleByUserId };
