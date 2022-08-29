@@ -15,6 +15,9 @@ const SaleSchema = (sequelize, DataTypes) => {
       underscored: true
     }
   );
+  SaleTable.associate = (models) => {
+    SaleTable.hasMany(models.salesProduct, { foreignKey: 'saleId' });
+  };
   return SaleTable;
 };
 
