@@ -46,13 +46,53 @@ export default function CheckoutTable() {
         {
           mockCart.map((i, index) => (
             <tr key={ index }>
-              <td>{index + 1}</td>
-              <td>{i.itemName}</td>
-              <td>{i.amount}</td>
-              <td>{i.itemValue.toFixed(2)}</td>
-              <td>{i.itemTotal.toFixed(2)}</td>
+              <td
+                data-testid={
+                  `customer_checkout__element-order-table-item-number-${index + 1}`
+                }
+              >
+                {index + 1}
+              </td>
+              <td
+                data-testid={
+                  `customer_checkout__element-order-table-name-${i.itemName}`
+                }
+              >
+                {i.itemName}
+              </td>
+              <td
+                data-testid={
+                  `customer_checkout__element-order-table-quantity-${i.amount}`
+                }
+              >
+                {i.amount}
+              </td>
+              <td
+                data-testid={
+                  `customer_checkout__element-order-table-unit-price-
+                  ${i.itemValue.toFixed(2)}
+                  `
+                }
+              >
+                {i.itemValue.toFixed(2)}
+              </td>
+              <td
+                data-testid={
+                  `customer_checkout__element-order-table-sub-total-
+                  ${i.itemTotal.toFixed(2)}
+                  `
+                }
+              >
+                {i.itemTotal.toFixed(2)}
+              </td>
               <td>
-                <button type="button" onClick={ handleClick }>
+                <button
+                  type="button"
+                  onClick={ handleClick }
+                  data-testid={
+                    `customer_checkout__element-order-table-remove-${index + 1}`
+                  }
+                >
                   Remover
                 </button>
               </td>
@@ -60,7 +100,11 @@ export default function CheckoutTable() {
           ))
         }
         <tr>
-          <td>{`Total: R$ ${totalValue}`}</td>
+          <td
+            data-testid="customer_checkout__element-order-total-price"
+          >
+            {`Total: R$ ${totalValue}`}
+          </td>
         </tr>
       </tbody>
     </table>
