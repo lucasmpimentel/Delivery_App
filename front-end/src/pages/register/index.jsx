@@ -42,7 +42,7 @@ export default function Register() {
     e.preventDefault();
     try {
       const { name, email, userPassword } = userState;
-      const token = await register(name, email, userPassword);
+      const { token } = await register(name, email, userPassword);
       setAuthorized(true);
       storage.setSessionStorage('token', token);
       return navigate('/login');

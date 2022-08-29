@@ -1,35 +1,26 @@
 import React, { useContext } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
-import jwt from 'jwt-decode';
 import context from '../context/context';
 import auth from '../utils/auth';
 
 function Authorizer() {
   const {
     authorized,
-    setSessionUser,
   } = useContext(context);
 
   const verifyAuth = () => {
-    const token = auth.checkAuth();
-    if (token) {
-      const { data } = jwt(token);
-      const { id, name, email, role } = data;
-      if (id && name && email && role) {
-        return data;
-      }
-    }
+    const user = auth.checkAuth();
+    if (user) return user;
     return false;
   };
 
   if (!authorized) {
     try {
       const user = verifyAuth();
-      setSessionUser(user);
-      if (!user) {
-        return <Navigate to="/login" />;
+      if (user) {
+        return <Outlet />;
       }
-      return <Outlet />;
+      return <Navigate to="/login" />;
     } catch (err) {
       <Navigate to="/login" />;
     }

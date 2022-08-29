@@ -1,10 +1,17 @@
+import jwt from 'jwt-decode';
 import storage from './storage';
 
 function checkAuth() {
   try {
-    const getToken = storage.getSessionStorage('token');
-    if (getToken) {
-      return getToken;
+    const token = storage.getSessionStorage('token');
+    console.log(token);
+    if (token) {
+      const data = jwt(token);
+      const { id, name, email, role } = data;
+      if (id && name && email && role) {
+        return data;
+      }
+      return false;
     }
     return false;
   } catch (err) {
@@ -12,6 +19,12 @@ function checkAuth() {
   }
 }
 
+function getUser(token) {
+  const { data } = jwt(token);
+  return data;
+}
+
 export default {
   checkAuth,
+  getUser,
 };
