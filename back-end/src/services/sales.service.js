@@ -22,4 +22,13 @@ const salesAndProducts = async () => {
   return allSales;
 };
 
-module.exports = { findAll, findById, salesAndProducts };
+const findSaleByUserId = async (userId) => {
+  console.log(userId);
+  console.log(typeof userId);
+  const saleById = await sale.findAll(
+    { where: { userId } },
+  );
+  return saleById;
+};
+
+module.exports = { findAll, findById, salesAndProducts, findSaleByUserId };
