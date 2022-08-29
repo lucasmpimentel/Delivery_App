@@ -9,7 +9,7 @@ const host = axios.create({
   timeout: 10000,
 });
 
-export default async function register(name, email, password) {
+export default async function Register(name, email, password) {
   const user = { name, email, password, role: 'customer' };
   try {
     const { data } = await host.post('/register', user);

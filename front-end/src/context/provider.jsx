@@ -20,7 +20,7 @@ function Provider({ children }) {
     setAuthorized,
     sessionUser,
     setSessionUser,
-  }), [isLoading]);
+  }), [authorized, isLoading, sessionUser]);
 
   return (
     <Context.Provider value={ context }>
