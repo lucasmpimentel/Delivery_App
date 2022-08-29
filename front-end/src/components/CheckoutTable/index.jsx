@@ -33,12 +33,14 @@ export default function CheckoutTable() {
   return (
     <table>
       <thead>
-        <td>Item</td>
-        <td>Descrição</td>
-        <td>Quantidade</td>
-        <td>Valor Unitário</td>
-        <td>Sub-total</td>
-        <td>Remover Item</td>
+        <tr>
+          <td>Item</td>
+          <td>Descrição</td>
+          <td>Quantidade</td>
+          <td>Valor Unitário</td>
+          <td>Sub-total</td>
+          <td>Remover Item</td>
+        </tr>
       </thead>
       <tbody>
         {

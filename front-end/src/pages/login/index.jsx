@@ -11,7 +11,7 @@ export default function Login() {
     isLoading,
     // setIsLoading,
     setAuthorized,
-    // authorized,
+    authorized,
   } = useContext(Context);
   const [user, setUser] = useState({ email: '', password: '' });
   const [isDisabled, setIsDisabled] = useState(true);
@@ -24,6 +24,9 @@ export default function Login() {
   };
 
   useEffect(() => {
+    if (authorized) {
+      navigate('/customer/products');
+    }
     const testEmail = regEx.test(user.email);
     const testPass = user.password.length >= MIN_PASS;
     if (testEmail && testPass) {
