@@ -1,7 +1,8 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Context from '../../context/context';
-import productsMock from '../../productsMock';
+// import productsMock from '../../productsMock';
+import getAllProducts from '../../services/customerProducts.service';
 
 export default function ProductsTable() {
   const navigate = useNavigate();
@@ -18,9 +19,14 @@ export default function ProductsTable() {
     setTotalPrice,
   } = useContext(Context);
 
+  const fetchProducts = async () => {
+    const allProducts = await getAllProducts();
+    setProducts(allProducts);
+  };
+
   useEffect(() => {
     if (products.length === 0) {
-      setProducts(productsMock);
+      fetchProducts();
     }
   }, [products.length]);
 
