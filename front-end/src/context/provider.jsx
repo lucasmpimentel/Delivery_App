@@ -12,15 +12,21 @@ function Provider({ children }) {
     email: '',
     isActive: false,
   });
+  const [shoppingCart, setShoppingCart] = useState([]);
+  const [totalPrice, setTotalPrice] = useState(0);
 
   const context = useMemo(() => ({
     isLoading,
     setIsLoading,
     authorized,
+    shoppingCart,
+    totalPrice,
     setAuthorized,
     sessionUser,
     setSessionUser,
-  }), [isLoading]);
+    setShoppingCart,
+    setTotalPrice,
+  }), [isLoading, authorized, shoppingCart, totalPrice, sessionUser]);
 
   return (
     <Context.Provider value={ context }>
