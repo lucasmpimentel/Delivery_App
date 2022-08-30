@@ -112,49 +112,49 @@ export default function ProductsTable() {
   return (
     <>
       <div>
-        {products.map((product) => (
-          <div key={ product.id }>
+        {products.map(({ id, name, price, url_image: urlImage }) => (
+          <div key={ id }>
             <p
-              data-testid={ `customer_products__element-card-price-${product.id}` }
+              data-testid={ `customer_products__element-card-price-${id}` }
             >
-              {`R$ ${product.price}`}
+              {`R$ ${price}`}
             </p>
             <img
-              data-testid={ `customer_products__img-card-bg-image-${product.id}` }
-              src="../../assets/images/antarctica_pilsen_300ml.jpg"
-              alt={ product.name }
+              data-testid={ `customer_products__img-card-bg-image-${id}` }
+              src={ urlImage }
+              alt={ name }
             />
             <h3
-              data-testid={ `customer_products__element-card-title-${product.id}` }
+              data-testid={ `customer_products__element-card-title-${id}` }
             >
-              { product.name }
+              { name }
 
             </h3>
             <button
-              data-testid={ `customer_products__button-card-rm-item-${product.id}` }
+              data-testid={ `customer_products__button-card-rm-item-${id}` }
               type="button"
               name="-"
-              value={ product.id }
+              value={ id }
               onClick={ handleClick }
             >
               -
             </button>
             <input
-              data-testid={ `customer_products__input-card-quantity-${product.id}` }
+              data-testid={ `customer_products__input-card-quantity-${id}` }
               type="number"
               min="0"
               placeholder="0"
-              name={ product.id }
-              value={ localCart?.some((item) => +item.id === +product.id)
-                ? localCart.find((item) => +item.id === +product.id).amount
+              name={ id }
+              value={ localCart?.some((item) => +item.id === +id)
+                ? localCart.find((item) => +item.id === +id).amount
                 : 0 }
               onChange={ handleChange }
             />
             <button
-              data-testid={ `customer_products__button-card-add-item-${product.id}` }
+              data-testid={ `customer_products__button-card-add-item-${id}` }
               type="button"
               name="+"
-              value={ product.id }
+              value={ id }
               onClick={ handleClick }
             >
               +
