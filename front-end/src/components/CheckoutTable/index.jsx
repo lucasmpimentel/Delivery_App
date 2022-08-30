@@ -1,27 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import context from '../../context/context';
 
 export default function CheckoutTable() {
-  const [mockCart, setMockCart] = useState([
-    {
-      itemName: 'cerveja quente',
-      amount: 6,
-      itemValue: 0.5,
-      itemTotal: 3,
-    },
-    {
-      itemName: 'cerveja ruim',
-      amount: 6,
-      itemValue: 1,
-      itemTotal: 6,
-    },
-  ]);
+  const { shoppingCart } = useContext(context);
   const [totalValue, setTotalValue] = useState();
 
   useEffect(() => {
-    const total = mockCart.reduce((acc, item) => acc + item.itemTotal, 0);
+    const total = shoppingCart.reduce((acc, item) => acc + item.itemTotal, 0);
     console.log(total);
     setTotalValue(total);
-  }, [mockCart]);
+  }, [shoppingCart]);
 
   const handleClick = ({ target }) => {
     const element = target.parentNode.parentNode;
@@ -44,7 +32,7 @@ export default function CheckoutTable() {
       </thead>
       <tbody>
         {
-          mockCart.map((i, index) => (
+          shoppingCart.map((i, index) => (
             <tr key={ index }>
               <td
                 data-testid={
