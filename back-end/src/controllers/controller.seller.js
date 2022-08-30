@@ -7,4 +7,4 @@ const updateStatus = async (req, res) => {
     res.status(200).json(response);
   };
 
-  module.exports = { updateStatus }
+  module.exports = { updateStatus };
