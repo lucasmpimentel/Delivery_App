@@ -9,18 +9,18 @@ function Authorizer() {
   } = useContext(context);
 
   const verifyAuth = () => {
-    const data = auth.checkAuth();
-    if (data) return data;
+    const user = auth.checkAuth();
+    if (user) return user;
     return false;
   };
 
   if (!authorized) {
     try {
       const user = verifyAuth();
-      if (!user) {
-        return <Navigate to="/login" />;
+      if (user) {
+        return <Outlet />;
       }
-      return <Outlet />;
+      return <Navigate to="/login" />;
     } catch (err) {
       <Navigate to="/login" />;
     }

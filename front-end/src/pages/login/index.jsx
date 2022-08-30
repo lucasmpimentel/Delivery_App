@@ -4,14 +4,16 @@ import Context from '../../context/context';
 import makeLogin from '../../services/login.service';
 import storage from '../../utils/storage';
 import Loading from '../../components/Loading';
+import auth from '../../utils/auth';
 
 export default function Login() {
   const navigate = useNavigate();
   const {
     isLoading,
-    // setIsLoading,
+    setIsLoading,
     setAuthorized,
-    // authorized,
+    authorized,
+    setSessionUser,
   } = useContext(Context);
   const [user, setUser] = useState({ email: '', password: '' });
   const [isDisabled, setIsDisabled] = useState(true);
@@ -24,6 +26,12 @@ export default function Login() {
   };
 
   useEffect(() => {
+    const userLogged = auth.checkAuth();
+    if (authorized || userLogged) {
+      setSessionUser({ ...userLogged });
+      setAuthorized(true);
+      return navigate('/customer/products');
+    }
     const testEmail = regEx.test(user.email);
     const testPass = user.password.length >= MIN_PASS;
     if (testEmail && testPass) {
@@ -36,29 +44,21 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // setIsLoading(true);
-      console.log('makeLogin');
+      setIsLoading(true);
       const { email, password } = user;
-      const loggedUser = await makeLogin(email, password);
-      console.log(loggedUser);
-      storage.setSessionStorage('sessionUser', loggedUser);
+      const { token } = await makeLogin(email, password);
+      storage.setSessionStorage('token', token);
+      const logged = auth.getUser(token);
+      setSessionUser({ ...logged });
       setAuthorized(true);
-      // setIsLoading(false);
+      setIsLoading(false);
       return navigate('/customer/products');
     } catch (err) {
-      // setIsLoading(false);
+      setIsLoading(false);
       setAuthorized(false);
-      // setErrorMsg(err.message);
-      // return setModalOpen(true);
+      console.log(err.message);
     }
   };
-
-  /* useEffect(() => {
-    const userLogged = storage.getSessionStorage('sessionUser');
-    if (authorized || userLogged) {
-      navigate('/customer/products');
-    }
-  }, [authorized]); */
 
   return isLoading ? (
     <Loading />
@@ -100,12 +100,6 @@ export default function Login() {
         >
           Cadastre-se!
         </button>
-        {/* <span
-          data-testid="common_login__element-invalid-email"
-          className="hidden"
-        >
-          Login inválido!
-        </span> */}
       </form>
     </main>
   );
