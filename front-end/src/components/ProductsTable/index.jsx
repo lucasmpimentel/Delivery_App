@@ -1,7 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Context from '../../context/context';
-import Loading from '../Loading';
 import productsMock from '../../productsMock';
 
 export default function ProductsTable() {
@@ -9,10 +8,8 @@ export default function ProductsTable() {
   const [products, setProducts] = useState([]);
   const [localCart, setLocalCart] = useState([]);
   const [localTotal, setLocalTotal] = useState(0);
-  const [prodAmount, setProdAmount] = useState({});
   const {
-    isLoading,
-    setIsLoading,
+    // isLoading,
     // setAuthorized,
     // authorized,
     // shoppingCart,
@@ -22,13 +19,10 @@ export default function ProductsTable() {
   } = useContext(Context);
 
   useEffect(() => {
-    setIsLoading(true);
-    console.log('products length', products.length);
     if (products.length === 0) {
       setProducts(productsMock);
     }
-    setIsLoading(false);
-  }, [products.length, setIsLoading]);
+  }, [products.length]);
 
   const handleClick = ({ target }) => {
     const localProdFind = localCart.find((product) => product.id === +(target.value));
@@ -43,7 +37,6 @@ export default function ProductsTable() {
         totalPrice: prodFind.price };
       setLocalCart([...localCart, newObj]);
       setLocalTotal(localTotal + +(newObj.totalPrice));
-      setProdAmount({ ...prodAmount, [prodFind.id]: 1 });
     } else {
       if (target.name === '+') {
         const attAmount = localProdFind.amount + 1;
@@ -56,8 +49,6 @@ export default function ProductsTable() {
         filterProds.push(attProduct);
         setLocalCart(filterProds);
         setLocalTotal(localTotal + attTotalPrice);
-        setProdAmount({
-          ...prodAmount, [localProdFind.id]: prodAmount[localProdFind.id] + 1 });
       }
 
       if (target.name === '-') {
@@ -96,7 +87,6 @@ export default function ProductsTable() {
         totalPrice: prodFind.price };
       setLocalCart([...localCart, newObj]);
       setLocalTotal(localTotal + +(newObj.totalPrice));
-      // setProdAmount({ ...prodAmount, [prodFind.id]: +(target.value) });
     } else {
       const attProduct = {
         ...localProdFind,
@@ -106,15 +96,10 @@ export default function ProductsTable() {
       filterProds.push(attProduct);
       setLocalCart(filterProds);
       setLocalTotal(localTotal + attTotalPrice);
-      // setProdAmount({
-      //   ...prodAmount,
-      //   [localProdFind.id]: prodAmount[localProdFind.id] + +(target.value) });
     }
   };
 
-  return isLoading ? (
-    <Loading />
-  ) : (
+  return (
     <>
       <div>
         {products.map((product) => (
