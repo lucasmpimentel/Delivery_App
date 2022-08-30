@@ -1,7 +1,6 @@
 import { useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Context from '../../context/context';
-import storage from '../../utils/storage';
 
 export default function Logoff() {
   const { setAuthorized, setSessionUser } = useContext(Context);
@@ -11,7 +10,8 @@ export default function Logoff() {
     () => {
       setAuthorized(false);
       setSessionUser({});
-      storage.setSessionStorage('token', '');
+      localStorage.clear();
+      sessionStorage.clear();
 
       return navigate('/login');
     },
