@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { TbArrowBackUp } from 'react-icons/tb';
 import Context from '../../context/context';
 import register from '../../services/register.service';
-import storage from '../../utils/storage';
 // import * as C from './styles';
 
 export default function Register() {
@@ -42,9 +41,8 @@ export default function Register() {
     e.preventDefault();
     try {
       const { name, email, userPassword } = userState;
-      const { token } = await register(name, email, userPassword);
-      setAuthorized(true);
-      storage.setSessionStorage('token', token);
+      const status = await register(name, email, userPassword);
+      setAuthorized(status);
       return navigate('/login');
     } catch (err) {
       setAuthorized(false);

@@ -3,7 +3,7 @@ import storage from './storage';
 
 function checkAuth() {
   try {
-    const token = storage.getSessionStorage('token');
+    const token = storage.getLocalStorage('token');
     if (token) {
       const data = jwt(token);
       const { id, name, email, role } = data;
