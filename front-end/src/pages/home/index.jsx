@@ -1,10 +1,11 @@
 import React from 'react';
+import Navbar from '../../components/navbar';
 import ProductsTable from '../../components/ProductsTable';
 
 export default function Home() {
   return (
     <main>
-      <div><h1>HEADER</h1></div>
+      <Navbar />
       <section>
         <ProductsTable />
       </section>
