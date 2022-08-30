@@ -14,5 +14,5 @@ module.exports = { loginUser, registerUser };
 
 /* {
   "email": "fulana@deliveryapp.com",
-  "password:": "fulana@123"
+  "password": "fulana@123"
 } */
