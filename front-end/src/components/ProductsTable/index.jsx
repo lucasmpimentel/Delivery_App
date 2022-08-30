@@ -11,8 +11,8 @@ export default function ProductsTable() {
   const [localTotal, setLocalTotal] = useState(0);
   const {
     // isLoading,
-    // setAuthorized,
-    // authorized,
+    setAuthorized,
+    authorized,
     // shoppingCart,
     setShoppingCart,
     // totalPrice,
@@ -25,6 +25,8 @@ export default function ProductsTable() {
   };
 
   useEffect(() => {
+    setAuthorized(true);
+    console.log(authorized);
     if (products.length === 0) {
       fetchProducts();
     }
@@ -113,23 +115,23 @@ export default function ProductsTable() {
         {products.map((product) => (
           <div key={ product.id }>
             <p
-              datatest-id={ `customer_products__element-card-price-${product.id}` }
+              data-testid={ `customer_products__element-card-price-${product.id}` }
             >
               {`R$ ${product.price}`}
             </p>
             <img
-              datatest-id={ `customer_products__img-card-bg-image-${product.id}` }
+              data-testid={ `customer_products__img-card-bg-image-${product.id}` }
               src="../../assets/images/antarctica_pilsen_300ml.jpg"
               alt={ product.name }
             />
             <h3
-              datatest-id={ `customer_products__element-card-title-${product.id}` }
+              data-testid={ `customer_products__element-card-title-${product.id}` }
             >
               { product.name }
 
             </h3>
             <button
-              datatest-id={ `customer_products__button-card-rm-item-${product.id}` }
+              data-testid={ `customer_products__button-card-rm-item-${product.id}` }
               type="button"
               name="-"
               value={ product.id }
@@ -138,7 +140,7 @@ export default function ProductsTable() {
               -
             </button>
             <input
-              datatest-id={ `customer_products__input-card-quantity-${product.id}` }
+              data-testid={ `customer_products__input-card-quantity-${product.id}` }
               type="number"
               min="0"
               placeholder="0"
@@ -149,7 +151,7 @@ export default function ProductsTable() {
               onChange={ handleChange }
             />
             <button
-              datatest-id={ `customer_products__button-card-add-item-${product.id}` }
+              data-testid={ `customer_products__button-card-add-item-${product.id}` }
               type="button"
               name="+"
               value={ product.id }
@@ -161,7 +163,7 @@ export default function ProductsTable() {
         ))}
       </div>
       <button
-        datatest-id="customer_products__button-cart"
+        data-testid="customer_products__button-cart"
         type="button"
         onClick={ handleSubmitCart }
       >
