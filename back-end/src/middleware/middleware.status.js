@@ -1,9 +1,8 @@
 const Joi = require('joi');
 
 const statusSchema = Joi.object().keys({
-            status: Joi.string().valid("Pendente","Preparando", "Em Trânsito", "Entregue" )
-        })
-
+            status: Joi.string().valid('Pendente', 'Preparando', 'Em Trânsito', 'Entregue'),
+        });
 
 const validateStatus = (req, res, next) => {
   const { error } = statusSchema.validate(req.body);
@@ -14,4 +13,5 @@ const validateStatus = (req, res, next) => {
   }
   return next();
 };
-module.exports = {  validateStatus };
+
+module.exports = { validateStatus };
