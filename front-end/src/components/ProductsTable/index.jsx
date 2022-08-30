@@ -10,12 +10,7 @@ export default function ProductsTable() {
   const [localCart, setLocalCart] = useState([]);
   const [localTotal, setLocalTotal] = useState(0);
   const {
-    // isLoading,
-    setAuthorized,
-    authorized,
-    // shoppingCart,
     setShoppingCart,
-    // totalPrice,
     setTotalPrice,
   } = useContext(Context);
 
@@ -25,8 +20,6 @@ export default function ProductsTable() {
   };
 
   useEffect(() => {
-    setAuthorized(true);
-    console.log(authorized);
     if (products.length === 0) {
       fetchProducts();
     }
