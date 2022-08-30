@@ -2,9 +2,8 @@ import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Context from '../../context/context';
 import makeLogin from '../../services/login.service';
-import storage from '../../utils/storage';
-import Loading from '../../components/Loading';
 import auth from '../../utils/auth';
+import Loading from '../../components/Loading';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -46,13 +45,10 @@ export default function Login() {
     try {
       setIsLoading(true);
       const { email, password } = user;
-      const { token } = await makeLogin(email, password);
-      storage.setSessionStorage('token', token);
-      const logged = auth.getUser(token);
-      setSessionUser({ ...logged });
-      setAuthorized(true);
+      const status = await makeLogin(email, password);
+      setAuthorized(status);
       setIsLoading(false);
-      return navigate('/customer/products');
+      if (status) return navigate('/customer/products');
     } catch (err) {
       setIsLoading(false);
       setAuthorized(false);

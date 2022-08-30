@@ -11,7 +11,10 @@ export default function AdressForm({ adress, setAdress }) {
     <form>
       <label htmlFor="seller">
         P. Vendedora Responsavel
-        <select id="seller">
+        <select
+          data-testid="customer_checkout__select-seller"
+          id="seller"
+        >
           <option>1</option>
         </select>
       </label>
@@ -22,6 +25,7 @@ export default function AdressForm({ adress, setAdress }) {
           name="street"
           value={ adress.street }
           onChange={ handleChange }
+          data-testid="customer_checkout__input-address"
         />
       </label>
       <label htmlFor="number">
@@ -31,6 +35,7 @@ export default function AdressForm({ adress, setAdress }) {
           name="number"
           value={ adress.number }
           onChange={ handleChange }
+          data-testid="customer_checkout__input-addressNumber"
         />
       </label>
     </form>

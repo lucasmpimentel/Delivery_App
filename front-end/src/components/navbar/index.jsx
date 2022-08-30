@@ -1,14 +1,16 @@
 import React, { useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Context from '../../context/context';
-import auth from '../../utils/auth';
+import storage from '../../utils/storage';
 
 export default function Navbar() {
   const { sessionUser, setSessionUser } = useContext(Context);
 
   useEffect(() => {
-    const data = auth.checkAuth();
-    setSessionUser(data);
+    const name = storage.getLocalStorage('name');
+    const email = storage.getLocalStorage('email');
+    const role = storage.getLocalStorage('role');
+    setSessionUser({ name, email, role });
   }, []);
 
   return (
