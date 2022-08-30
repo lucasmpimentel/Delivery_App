@@ -25,20 +25,23 @@ export default function ProductsTable() {
   }, [products.length]);
 
   const handleClick = ({ target }) => {
+    console.log('target', target);
     const localProdFind = localCart.find((product) => product.id === +(target.value));
 
     if (!localProdFind) {
+      console.log('entrou no primeiro if');
       const prodFind = products.find((product) => product.id === +(target.value));
       const newObj = {
         id: prodFind.id,
         name: prodFind.name,
         price: prodFind.price,
-        amount: 1,
+        amount: target.name === '-' ? 0 : 1,
         totalPrice: prodFind.price };
       setLocalCart([...localCart, newObj]);
-      setLocalTotal(localTotal + +(newObj.totalPrice));
+      setLocalTotal(+(localTotal + +(newObj.totalPrice)).toFixed(2));
     } else {
       if (target.name === '+') {
+        console.log('positivo', target.name);
         const attAmount = localProdFind.amount + 1;
         const attTotalPrice = localProdFind.price * attAmount;
         const attProduct = {
@@ -48,10 +51,11 @@ export default function ProductsTable() {
         const filterProds = localCart.filter((product) => product.id !== +(target.value));
         filterProds.push(attProduct);
         setLocalCart(filterProds);
-        setLocalTotal(localTotal + attTotalPrice);
+        setLocalTotal(+(localTotal + attTotalPrice).toFixed(2));
       }
 
       if (target.name === '-') {
+        console.log('negativo', target.name);
         const attAmount = localProdFind.amount - 1;
         const attTotalPrice = localProdFind.price * attAmount;
         const attProduct = {
@@ -61,7 +65,7 @@ export default function ProductsTable() {
         const filterProds = localCart.filter((product) => product.id !== +(target.value));
         const attLocal = filterProds.push(attProduct);
         setLocalCart(attLocal);
-        setLocalTotal(localTotal + attTotalPrice);
+        setLocalTotal(+(localTotal + attTotalPrice.toFixed(2)));
       }
     }
   };
@@ -84,7 +88,7 @@ export default function ProductsTable() {
         amount: +(target.value),
         totalPrice: prodFind.price };
       setLocalCart([...localCart, newObj]);
-      setLocalTotal(localTotal + +(newObj.totalPrice));
+      setLocalTotal(+(localTotal + +(newObj.totalPrice)).toFixed(2));
     } else {
       const attProduct = {
         ...localProdFind,
@@ -93,7 +97,7 @@ export default function ProductsTable() {
       const filterProds = localCart.filter((product) => product.id !== +(target.name));
       filterProds.push(attProduct);
       setLocalCart(filterProds);
-      setLocalTotal(localTotal + attTotalPrice);
+      setLocalTotal(+(localTotal + attProduct.totalPrice.toFixed(2)));
     }
   };
 
