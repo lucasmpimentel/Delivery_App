@@ -22,6 +22,7 @@ export default function Checkout() {
         <button
           type="button"
           onClick={ handleClick }
+          data-testid="customer_checkout__button-submit-order"
         >
           FINALIZAR PEDIDO
         </button>
