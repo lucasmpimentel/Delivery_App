@@ -17,10 +17,14 @@ function Provider({ children }) {
     isLoading,
     setIsLoading,
     authorized,
+    shoppingCart,
+    totalPrice,
     setAuthorized,
     sessionUser,
     setSessionUser,
-  }), [authorized, isLoading, sessionUser]);
+    setShoppingCart,
+    setTotalPrice,
+  }), [isLoading, authorized, shoppingCart, totalPrice, sessionUser]);
 
   return (
     <Context.Provider value={ context }>
