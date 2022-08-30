@@ -62,8 +62,6 @@ export default function ProductsTable() {
         const attLocal = filterProds.push(attProduct);
         setLocalCart(attLocal);
         setLocalTotal(localTotal + attTotalPrice);
-        setProdAmount({
-          ...prodAmount, [localProdFind.id]: prodAmount[localProdFind.id] - 1 });
       }
     }
   };
