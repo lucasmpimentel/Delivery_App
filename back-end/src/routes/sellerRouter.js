@@ -4,6 +4,6 @@ const {
     updateStatus,
 } = require('../controllers/controller.seller');
 
-sellerRouter.put('/seller/:id', updateStatus);
+sellerRouter.patch('/seller/:id', updateStatus);
 
 module.exports = sellerRouter;
