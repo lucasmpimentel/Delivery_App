@@ -13,10 +13,34 @@ export default function Navbar() {
 
   return (
     <div className="nav">
-      <Link data-testid="customer_products__element-navbar-link-products" to="/customer/products">PRODUTOS</Link>
-      <Link data-testid="customer_products__element-navbar-link-orders" to="/customer/checkout">MEUS PEDIDOS</Link>
-      <Link data-testid="customer_products__element-navbar-user-full-name" to="/">{sessionUser.name}</Link>
-      <Link data-testid="customer_products__element-navbar-link-logout" to="/logout">Sair</Link>
+      <Link
+        data-testid="customer_products__element-navbar-link-products"
+        to="/customer/products"
+      >
+        PRODUTOS
+
+      </Link>
+      <Link
+        data-testid="customer_products__element-navbar-link-orders"
+        to="/customer/checkout"
+      >
+        MEUS PEDIDOS
+
+      </Link>
+      <Link
+        data-testid="customer_products__element-navbar-user-full-name"
+        to="/"
+      >
+        {sessionUser.name}
+
+      </Link>
+      <Link
+        data-testid="customer_products__element-navbar-link-logout"
+        to="/logout"
+      >
+        Sair
+
+      </Link>
     </div>
   );
 }
