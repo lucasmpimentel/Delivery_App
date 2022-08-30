@@ -1,21 +1,29 @@
+import jwt from 'jwt-decode';
 import storage from './storage';
 
 function checkAuth() {
   try {
-    const getSessionUser = storage.getSessionStorage('sessionUser');
-    if (getSessionUser) {
-      return getSessionUser;
+    const token = storage.getSessionStorage('token');
+    if (token) {
+      const data = jwt(token);
+      const { id, name, email, role } = data;
+      if (id && name && email && role) {
+        return data;
+      }
+      return false;
     }
-    /* const getLocalToken = storage.getLocalStorage('token');
-    if (getLocalToken) {
-      return user;
-    } */
     return false;
   } catch (err) {
     throw new Error(err.message);
   }
 }
 
+function getUser(token) {
+  const { data } = jwt(token);
+  return data;
+}
+
 export default {
   checkAuth,
+  getUser,
 };
