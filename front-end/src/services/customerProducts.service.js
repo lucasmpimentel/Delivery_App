@@ -11,7 +11,8 @@ const host = axios.create({
 
 export default async function getAllProducts() {
   try {
-    const { data } = await host.get('/products');
+    const data = await host.get('/products').then((res) => res.data);
+    console.log('aquiiiiiiiiiiiiiiiiiiiiiiiiiiiiii', data);
     return data;
   } catch (err) {
     Swal.fire({
