@@ -12,8 +12,6 @@ function Provider({ children }) {
     email: '',
     isActive: false,
   });
-  const [shoppingCart, setShoppingCart] = useState([]);
-  const [totalPrice, setTotalPrice] = useState(0);
 
   const context = useMemo(() => ({
     isLoading,

@@ -1,5 +1,4 @@
 import axios from 'axios';
-import jwt from 'jwt-decode';
 import Swal from 'sweetalert2';
 
 const URL = process.env.REACT_APP_HOSTNAME;
@@ -10,14 +9,11 @@ const host = axios.create({
   timeout: 10000,
 });
 
-export default async function register(name, email, password) {
+export default async function Register(name, email, password) {
   const user = { name, email, password, role: 'customer' };
   try {
     const { data } = await host.post('/register', user);
-    console.log({ data });
-    const userToken = jwt(data.token);
-    console.log({ userToken });
-    return { ...userToken, ...data };
+    return { ...data };
   } catch (err) {
     Swal.fire({
       icon: 'error',

@@ -42,11 +42,10 @@ export default function Register() {
     e.preventDefault();
     try {
       const { name, email, userPassword } = userState;
-      const loggedUser = await register(name, email, userPassword);
-      console.log(loggedUser);
-      storage.setSessionStorage('sessionUser', loggedUser);
+      const { token } = await register(name, email, userPassword);
       setAuthorized(true);
-      return navigate('/customer/products');
+      storage.setSessionStorage('token', token);
+      return navigate('/login');
     } catch (err) {
       setAuthorized(false);
     }
