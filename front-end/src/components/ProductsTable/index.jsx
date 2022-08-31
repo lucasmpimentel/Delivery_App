@@ -56,7 +56,6 @@ export default function ProductsTable() {
       }
 
       if (target.name === '-') {
-        console.log('negativo', target.name);
         const attAmount = localProdFind.amount - 1;
         const attTotalPrice = localProdFind.price * attAmount;
         const attProduct = {
@@ -64,8 +63,8 @@ export default function ProductsTable() {
           amount: attAmount,
           totalPrice: attTotalPrice };
         const filterProds = localCart.filter((product) => product.id !== +(target.value));
-        const attLocal = filterProds.push(attProduct);
-        setLocalCart(attLocal);
+        filterProds.push(attProduct);
+        setLocalCart(filterProds);
         setLocalTotal(+(localTotal + attTotalPrice.toFixed(2)));
       }
     }
@@ -99,6 +98,17 @@ export default function ProductsTable() {
       filterProds.push(attProduct);
       setLocalCart(filterProds);
       setLocalTotal(+(localTotal + attProduct.totalPrice.toFixed(2)));
+    }
+  };
+  const getBtnValue = (id) => {
+    if (!localCart) {
+      return 0;
+    }
+    console.log('local cart', localCart);
+    const itemFound = localCart.some((item) => +item.id === +id);
+
+    if (itemFound) {
+      return localCart.find((item) => +item.id === +id).amount;
     }
   };
 
@@ -138,9 +148,7 @@ export default function ProductsTable() {
               min="0"
               placeholder="0"
               name={ id }
-              value={ localCart?.some((item) => +item.id === +id)
-                ? localCart.find((item) => +item.id === +id).amount
-                : 0 }
+              value={ getBtnValue(id) }
               onChange={ handleChange }
             />
             <button
