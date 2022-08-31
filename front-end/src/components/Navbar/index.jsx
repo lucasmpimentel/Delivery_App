@@ -7,10 +7,8 @@ export default function Navbar() {
   const { sessionUser, setSessionUser } = useContext(Context);
 
   useEffect(() => {
-    const name = storage.getLocalStorage('name');
-    const email = storage.getLocalStorage('email');
-    const role = storage.getLocalStorage('role');
-    setSessionUser({ name, email, role });
+    const user = storage.getLocalStorage('user');
+    setSessionUser({ ...user });
   }, []);
 
   return (

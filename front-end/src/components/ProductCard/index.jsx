@@ -20,10 +20,14 @@ export default function ProductCard(
           {name}
         </h3>
         <div>
-          <h4
-            data-testid={ `customer_products__element-card-price-${id}` }
-          >
-            {`R$ ${price}`}
+          <h4>
+            R$
+            {' '}
+            <span
+              data-testid={ `customer_products__element-card-price-${id}` }
+            >
+              {price}
+            </span>
           </h4>
           <div>
             <button
