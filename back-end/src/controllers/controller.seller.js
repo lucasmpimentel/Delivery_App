@@ -12,4 +12,10 @@ const updateStatus = async (req, res) => {
     res.status(200).json(findSeller);
   };
 
-  module.exports = { updateStatus, getSeller };
+  const getSaleSeller = async (req, res) => {
+    const { id } = req.params;
+    const response = await sellerService.getSaleSeller(id);
+    res.status(200).json(response);
+  };
+
+  module.exports = { updateStatus, getSeller, getSaleSeller };
