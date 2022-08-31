@@ -3,7 +3,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import Authorizer from './hooks/Authorizer';
 import Login from './pages/login';
 import Register from './pages/register';
-import Home from './pages/home';
+import Products from './pages/products';
 import Checkout from './pages/checkout';
 import Logoff from './pages/logoff';
 
@@ -15,7 +15,8 @@ export default function Index() {
       <Route path="register" element={ <Register /> } />
       <Route path="logout" element={ <Logoff /> } />
       <Route path="customer" element={ <Authorizer /> }>
-        <Route path="products" element={ <Home /> } />
+        <Route index element={ <Navigate to="products" /> } />
+        <Route path="products" element={ <Products /> } />
         <Route path="checkout" element={ <Checkout /> } />
       </Route>
     </Routes>
