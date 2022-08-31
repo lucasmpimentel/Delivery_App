@@ -39,10 +39,9 @@ export default function ProductCard(
               -
             </button>
             <input
-              type="number"
+              type="text"
               data-testid={ `customer_products__input-card-quantity-${id}` }
               placeholder="0"
-              min="0"
               name={ id }
               value={ amount }
               onChange={ handleAmount }
