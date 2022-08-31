@@ -21,7 +21,7 @@ const getSeller = async () => {
 const getSaleSeller = async (sellerId) => {
   const findAllSeller = await sale.findAll({ 
     where: { sellerId },
-    include: { model: salesProduct, attributes: { exclude: ['saleId'] }}
+    include: { model: salesProduct, attributes: { exclude: ['saleId'] } },
    });
   return findAllSeller;
 };
