@@ -14,8 +14,8 @@ const updateStatus = async (status, id) => {
 };
 
 const getSeller = async () => {
-  const findAllSeller = await user.findAll({ where: { role: "seller" } })
+  const findAllSeller = await user.findAll({ where: { role: 'seller' } });
   return findAllSeller;
-}
+};
 
 module.exports = { updateStatus, getSeller };
