@@ -9,9 +9,9 @@ const authenticateMiddleware = require('../middleware/middleware.auth');
 const routes = express.Router();
 
 routes.use(loginRouter);
-routes.use(authenticateMiddleware, productsRouter);
+routes.use(productsRouter);
 routes.use(authenticateMiddleware, checkoutRouter);
 routes.use('/sales', authenticateMiddleware, salesRouter);
-routes.use(authenticateMiddleware, sellerRouter);
+routes.use('/seller',authenticateMiddleware, sellerRouter);
 
 module.exports = routes;

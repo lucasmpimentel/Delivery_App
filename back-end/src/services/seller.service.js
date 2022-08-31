@@ -1,4 +1,4 @@
-const { sale, user } = require('../database/models');
+const { sale, user, salesProduct } = require('../database/models');
 const { constructError } = require('../middleware/middleware.error');
 
 const updateStatus = async (status, id) => {
@@ -18,4 +18,12 @@ const getSeller = async () => {
   return findAllSeller;
 };
 
-module.exports = { updateStatus, getSeller };
+const getSaleSeller = async (sellerId) => {
+  const findAllSeller = await sale.findAll({ 
+    where: { sellerId },
+    include: { model: salesProduct, attributes: { exclude: ['saleId'] }}
+   });
+  return findAllSeller;
+};
+
+module.exports = { updateStatus, getSeller, getSaleSeller };
