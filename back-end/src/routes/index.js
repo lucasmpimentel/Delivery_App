@@ -12,6 +12,6 @@ routes.use(loginRouter);
 routes.use(productsRouter);
 routes.use(authenticateMiddleware, checkoutRouter);
 routes.use('/sales', authenticateMiddleware, salesRouter);
-routes.use('/seller',authenticateMiddleware, sellerRouter);
+routes.use('/seller', authenticateMiddleware, sellerRouter);
 
 module.exports = routes;
