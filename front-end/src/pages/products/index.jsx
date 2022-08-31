@@ -10,6 +10,7 @@ export default function Products() {
   const navigate = useNavigate();
   const [productsList, setProductsList] = useState(null);
   const [localCart, setLocalCart] = useState([]);
+  const [isDisabled, setIsDisabled] = useState(true);
   const { setShoppingCart, setTotalPrice, totalPrice } = useContext(Context);
 
   const fetchProducts = async () => {
@@ -55,10 +56,10 @@ export default function Products() {
     const cartItem = localCartById(id);
     if (!cartItem) {
       const selectedProduct = productById(id);
-      selectedProduct.amount = Number(value);
+      selectedProduct.amount = value.replace(/^0|-+/, '');
       setLocalCart([...localCart, selectedProduct]);
     } else {
-      cartItem.amount = Number(value);
+      cartItem.amount = value.replace(/^0|-+/, '');
       setLocalCart([...localCart]);
     }
   };
@@ -80,10 +81,15 @@ export default function Products() {
     if (!productsList) {
       fetchProducts();
     }
+    if (localCart.length > 0) {
+      setIsDisabled(false);
+    } else {
+      setIsDisabled(true);
+    }
     const total = localCart.reduce((acc, item) => (
       acc + (Number(item.price) * Number(item.amount))
     ), 0);
-    setTotalPrice(total.toFixed(2));
+    setTotalPrice(total.toFixed(2).replace('.', ','));
   }, [localCart]);
 
   return (
@@ -96,7 +102,7 @@ export default function Products() {
               key={ index }
               id={ prod.id }
               name={ prod.name }
-              price={ prod.price }
+              price={ (prod.price).replace('.', ',') }
               urlImage={ prod.url_image }
               add={ handleAdd }
               remove={ handleRemove }
@@ -111,8 +117,14 @@ export default function Products() {
         data-testid="customer_products__button-cart"
         type="button"
         onClick={ handleSubmitCart }
+        disabled={ isDisabled }
       >
-        { `Total R$:${totalPrice}` }
+        Total R$:
+        <span
+          data-testid="customer_products__checkout-bottom-value"
+        >
+          {totalPrice}
+        </span>
       </button>
     </main>
   );
