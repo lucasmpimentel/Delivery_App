@@ -2,11 +2,11 @@ import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Context from '../../context/context';
 // import productsMock from '../../productsMock';
-import getAllProducts from '../../services/customerProducts.service';
+import getAllProducts from '../../services/products.service';
 
 export default function ProductsTable() {
   const navigate = useNavigate();
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState(null);
   const [localCart, setLocalCart] = useState([]);
   const [localTotal, setLocalTotal] = useState(0);
   const {
@@ -20,10 +20,10 @@ export default function ProductsTable() {
   };
 
   useEffect(() => {
-    if (products.length === 0) {
+    if (!products) {
       fetchProducts();
     }
-  }, [products.length]);
+  }, [products]);
 
   const handleClick = ({ target }) => {
     console.log('target', target);
@@ -115,7 +115,7 @@ export default function ProductsTable() {
   return (
     <>
       <div>
-        {products.map(({ id, name, price, url_image: urlImage }) => (
+        {products?.map(({ id, name, price, url_image: urlImage }) => (
           <div key={ id }>
             <p
               data-testid={ `customer_products__element-card-price-${id}` }

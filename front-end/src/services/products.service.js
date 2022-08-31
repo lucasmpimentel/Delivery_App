@@ -13,7 +13,7 @@ const host = axios.create({
   timeout: 10000,
 });
 
-export default async function getAllProducts() {
+async function getAll() {
   try {
     const data = await host.get('/products').then((res) => res.data);
     return data;
@@ -26,3 +26,7 @@ export default async function getAllProducts() {
     return false;
   }
 }
+
+export default {
+  getAll,
+};

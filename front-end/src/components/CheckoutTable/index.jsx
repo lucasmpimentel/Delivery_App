@@ -1,21 +1,26 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 import context from '../../context/context';
 
 export default function CheckoutTable() {
-  const { shoppingCart } = useContext(context);
-  const [totalValue, setTotalValue] = useState();
+  const {
+    shoppingCart,
+    totalPrice,
+    setTotalPrice,
+    setShoppingCart,
+  } = useContext(context);
 
   useEffect(() => {
-    const total = shoppingCart.reduce((acc, item) => acc + item.itemTotal, 0);
-    console.log(total);
-    setTotalValue(total);
+    const total = shoppingCart.reduce((acc, item) => (
+      acc + (Number(item.price) * Number(item.amount))
+    ), 0);
+    setTotalPrice(total.toFixed(2));
   }, [shoppingCart]);
 
   const handleClick = ({ target }) => {
     const element = target.parentNode.parentNode;
     const itemIndex = element.firstChild.innerHTML - 1;
-    const newCart = mockCart.filter((_item, index) => index !== itemIndex);
-    setMockCart(newCart);
+    const newCart = shoppingCart.filter((_item, index) => index !== itemIndex);
+    setShoppingCart(newCart);
   };
 
   return (
@@ -36,21 +41,21 @@ export default function CheckoutTable() {
             <tr key={ index }>
               <td
                 data-testid={
-                  `customer_checkout__element-order-table-item-number-${index + 1}`
+                  `customer_checkout__element-order-table-item-number-${i.id}`
                 }
               >
                 {index + 1}
               </td>
               <td
                 data-testid={
-                  `customer_checkout__element-order-table-name-${i.itemName}`
+                  `customer_checkout__element-order-table-name-${i.id}`
                 }
               >
-                {i.itemName}
+                {i.name}
               </td>
               <td
                 data-testid={
-                  `customer_checkout__element-order-table-quantity-${i.amount}`
+                  `customer_checkout__element-order-table-quantity-${i.id}`
                 }
               >
                 {i.amount}
@@ -58,27 +63,27 @@ export default function CheckoutTable() {
               <td
                 data-testid={
                   `customer_checkout__element-order-table-unit-price-
-                  ${i.itemValue.toFixed(2)}
+                  ${i.id}
                   `
                 }
               >
-                {i.itemValue.toFixed(2)}
+                {i.price}
               </td>
               <td
                 data-testid={
                   `customer_checkout__element-order-table-sub-total-
-                  ${i.itemTotal.toFixed(2)}
+                  ${i.id}
                   `
                 }
               >
-                {i.itemTotal.toFixed(2)}
+                {(Number(i.price) * Number(i.amount)).toFixed(2)}
               </td>
               <td>
                 <button
                   type="button"
                   onClick={ handleClick }
                   data-testid={
-                    `customer_checkout__element-order-table-remove-${index + 1}`
+                    `customer_checkout__element-order-table-remove-${i.id}`
                   }
                 >
                   Remover
@@ -91,7 +96,7 @@ export default function CheckoutTable() {
           <td
             data-testid="customer_checkout__element-order-total-price"
           >
-            {`Total: R$ ${totalValue}`}
+            {`Total: R$ ${totalPrice}`}
           </td>
         </tr>
       </tbody>
