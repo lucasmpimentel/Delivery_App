@@ -23,6 +23,11 @@ export default function CheckoutTable() {
     setShoppingCart(newCart);
   };
 
+  const multiply = (price, amount) => {
+    const result = price * amount;
+    return result.toFixed(2).replace('.', ',');
+  };
+
   return (
     <table>
       <thead>
@@ -41,49 +46,45 @@ export default function CheckoutTable() {
             <tr key={ index }>
               <td
                 data-testid={
-                  `customer_checkout__element-order-table-item-number-${i.id}`
+                  `customer_checkout__element-order-table-item-number-${index}`
                 }
               >
                 {index + 1}
               </td>
               <td
                 data-testid={
-                  `customer_checkout__element-order-table-name-${i.id}`
+                  `customer_checkout__element-order-table-name-${index}`
                 }
               >
                 {i.name}
               </td>
               <td
                 data-testid={
-                  `customer_checkout__element-order-table-quantity-${i.id}`
+                  `customer_checkout__element-order-table-quantity-${index}`
                 }
               >
                 {i.amount}
               </td>
               <td
                 data-testid={
-                  `customer_checkout__element-order-table-unit-price-
-                  ${i.id}
-                  `
+                  `customer_checkout__element-order-table-unit-price-${index}`
                 }
               >
-                {i.price}
+                {i.price.replace('.', ',')}
               </td>
               <td
                 data-testid={
-                  `customer_checkout__element-order-table-sub-total-
-                  ${i.id}
-                  `
+                  `customer_checkout__element-order-table-sub-total-${index}`
                 }
               >
-                {(Number(i.price) * Number(i.amount)).toFixed(2)}
+                {multiply(i.price, i.amount)}
               </td>
               <td>
                 <button
                   type="button"
                   onClick={ handleClick }
                   data-testid={
-                    `customer_checkout__element-order-table-remove-${i.id}`
+                    `customer_checkout__element-order-table-remove-${index}`
                   }
                 >
                   Remover
@@ -96,7 +97,7 @@ export default function CheckoutTable() {
           <td
             data-testid="customer_checkout__element-order-total-price"
           >
-            {`Total: R$ ${totalPrice}`}
+            {`Total: R$ ${totalPrice.replace('.', ',')}`}
           </td>
         </tr>
       </tbody>

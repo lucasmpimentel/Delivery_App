@@ -9,9 +9,14 @@ import './style.css';
 export default function Products() {
   const navigate = useNavigate();
   const [productsList, setProductsList] = useState(null);
-  const [localCart, setLocalCart] = useState([]);
+  // const [localCart, setLocalCart] = useState([]);
   const [isDisabled, setIsDisabled] = useState(true);
-  const { setShoppingCart, setTotalPrice, totalPrice } = useContext(Context);
+  const {
+    setShoppingCart,
+    setTotalPrice,
+    totalPrice,
+    shoppingCart,
+  } = useContext(Context);
 
   const fetchProducts = async () => {
     const allProducts = await products.getAll();
@@ -22,50 +27,49 @@ export default function Products() {
     productsList.find(({ id }) => Number(id) === Number(clicked))
   );
 
-  const localCartById = (clicked) => (
-    localCart.find(({ id }) => Number(id) === Number(clicked))
+  const cartById = (clicked) => (
+    shoppingCart.find(({ id }) => Number(id) === Number(clicked))
   );
 
   const filterById = (clicked) => (
-    localCart.filter(({ id }) => Number(id) !== Number(clicked))
+    shoppingCart.filter(({ id }) => Number(id) !== Number(clicked))
   );
 
   const handleAdd = ({ target: { name: clicked } }) => {
-    const cartItem = localCartById(clicked);
+    const cartItem = cartById(clicked);
     if (cartItem) {
-      cartItem.amount += 1;
-      return setLocalCart([...localCart]);
+      cartItem.amount = Number(cartItem.amount) + 1;
+      return setShoppingCart([...shoppingCart]);
     }
     const selItem = productById(clicked);
     selItem.amount = 1;
-    return setLocalCart([...localCart, selItem]);
+    return setShoppingCart([...shoppingCart, selItem]);
   };
 
   const handleRemove = ({ target: { name: clicked } }) => {
-    const cartItem = localCartById(clicked);
-    console.log(cartItem);
+    const cartItem = cartById(clicked);
     if (cartItem && cartItem.amount > 1) {
-      cartItem.amount -= 1;
-      return setLocalCart([...localCart]);
+      cartItem.amount = Number(cartItem.amount) - 1;
+      return setShoppingCart([...shoppingCart]);
     }
     const newCar = filterById(clicked);
-    setLocalCart(newCar);
+    setShoppingCart(newCar);
   };
 
   const handleAmount = ({ target: { name: id, value } }) => {
-    const cartItem = localCartById(id);
+    const cartItem = cartById(id);
     if (!cartItem) {
       const selectedProduct = productById(id);
       selectedProduct.amount = value.replace(/^0|-+/, '');
-      setLocalCart([...localCart, selectedProduct]);
+      setShoppingCart([...shoppingCart, selectedProduct]);
     } else {
       cartItem.amount = value.replace(/^0|-+/, '');
-      setLocalCart([...localCart]);
+      setShoppingCart([...shoppingCart]);
     }
   };
 
   const amount = (id) => {
-    const item = localCartById(id);
+    const item = cartById(id);
     if (!item) {
       return 0;
     }
@@ -73,7 +77,7 @@ export default function Products() {
   };
 
   const handleSubmitCart = () => {
-    setShoppingCart(localCart);
+    setShoppingCart(shoppingCart);
     navigate('/customer/checkout');
   };
 
@@ -81,16 +85,16 @@ export default function Products() {
     if (!productsList) {
       fetchProducts();
     }
-    if (localCart.length > 0) {
+    if (shoppingCart.length > 0) {
       setIsDisabled(false);
     } else {
       setIsDisabled(true);
     }
-    const total = localCart.reduce((acc, item) => (
+    const total = shoppingCart.reduce((acc, item) => (
       acc + (Number(item.price) * Number(item.amount))
     ), 0);
     setTotalPrice(total.toFixed(2).replace('.', ','));
-  }, [localCart]);
+  }, [shoppingCart]);
 
   return (
     <main>
