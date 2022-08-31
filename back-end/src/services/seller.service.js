@@ -1,4 +1,4 @@
-const { sale } = require('../database/models');
+const { sale, user } = require('../database/models');
 const { constructError } = require('../middleware/middleware.error');
 
 const updateStatus = async (status, id) => {
@@ -13,4 +13,9 @@ const updateStatus = async (status, id) => {
   throw constructError(401, 'Venda não atualizada, insira novo status válido');
 };
 
-module.exports = { updateStatus };
+const getSeller = async () => {
+  const findAllSeller = await user.findAll({ where: { role: "seller" } })
+  return findAllSeller;
+}
+
+module.exports = { updateStatus, getSeller };
