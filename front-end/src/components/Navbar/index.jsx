@@ -22,7 +22,7 @@ export default function Navbar() {
       </Link>
       <Link
         data-testid="customer_products__element-navbar-link-orders"
-        to="/customer/checkout"
+        to="/customer/myorders"
       >
         MEUS PEDIDOS
 
