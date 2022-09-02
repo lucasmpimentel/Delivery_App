@@ -1,7 +1,5 @@
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState} from 'react';
 import MyOrderCart from '../../components/MyOrderCart';
-// import { useNavigate } from 'react-router-dom';
-// import Context from '../../context/context';
 import makeMyOrders from '../../services/myOrders.service';
 
 export default function MyOrders() {
@@ -12,14 +10,6 @@ export default function MyOrders() {
       const allOrders = await makeMyOrders();
       setOrdersList(allOrders);
     },
-    // () => {
-    //   setAuthorized(false);
-    //   setSessionUser({});
-    //   localStorage.clear();
-    //   sessionStorage.clear();
-
-    //   return navigate('/login');
-    // },
     [],
 
   );
