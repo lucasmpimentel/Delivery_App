@@ -19,7 +19,7 @@ export default function Index() {
       <Route path="customer" element={ <Authorizer /> }>
         <Route index element={ <Navigate to="products" /> } />
         <Route path="products" element={ <Products /> } />
-        <Route path="myorders" element={ <MyOrders /> } />
+        <Route path="orders" element={ <MyOrders /> } />
         <Route path="checkout" element={ <Checkout /> } />
         <Route path="orders/:id" element={ <OrdersDetails /> } />
       </Route>
