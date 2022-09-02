@@ -13,10 +13,10 @@ export default class Checkout {
 
   constructor(user, delivery, total, itens) {
     this.userId = user;
-    this.sellerId = delivery.seller;
+    this.sellerId = delivery.sellerId;
     this.totalPrice = total;
-    this.deliveryAdress = delivery.adress;
+    this.deliveryAdress = delivery.street;
     this.deliveryNumber = delivery.number;
-    this.itens = itens;
+    this.itens = itens.map((item) => ({ productId: item.id, quantity: item.amount }));
   }
 }

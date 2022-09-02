@@ -5,6 +5,7 @@ import Navbar from '../../components/Navbar';
 import ProductCard from '../../components/ProductCard';
 import products from '../../services/products.service';
 import './style.css';
+import storage from '../../utils/storage';
 
 export default function Products() {
   const navigate = useNavigate();
@@ -78,6 +79,7 @@ export default function Products() {
 
   const handleSubmitCart = () => {
     setShoppingCart(shoppingCart);
+    storage.setLocalStorage('cart', shoppingCart);
     navigate('/customer/checkout');
   };
 
@@ -88,6 +90,11 @@ export default function Products() {
     if (shoppingCart.length > 0) {
       setIsDisabled(false);
     } else {
+      const recoveryCart = storage.getLocalStorage('cart');
+      if (recoveryCart) {
+        setShoppingCart(recoveryCart);
+        return setIsDisabled(false);
+      }
       setIsDisabled(true);
     }
     const total = shoppingCart.reduce((acc, item) => (
@@ -111,7 +118,7 @@ export default function Products() {
               add={ handleAdd }
               remove={ handleRemove }
               handleAmount={ handleAmount }
-              amount={ amount(prod.id) }
+              amount={ Number(amount(prod.id)) }
               className="card"
             />
           ))

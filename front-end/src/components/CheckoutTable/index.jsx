@@ -1,5 +1,6 @@
 import React, { useEffect, useContext } from 'react';
 import context from '../../context/context';
+import storage from '../../utils/storage';
 
 export default function CheckoutTable() {
   const {
@@ -10,6 +11,11 @@ export default function CheckoutTable() {
   } = useContext(context);
 
   useEffect(() => {
+    if (!shoppingCart || setShoppingCart.length === 0) {
+      const cart = storage.getLocalStorage('cart');
+      if (!cart) return setShoppingCart([]);
+      setShoppingCart(cart);
+    }
     const total = shoppingCart.reduce((acc, item) => (
       acc + (Number(item.price) * Number(item.amount))
     ), 0);
@@ -20,8 +26,16 @@ export default function CheckoutTable() {
     const element = target.parentNode.parentNode;
     const itemIndex = element.firstChild.innerHTML - 1;
     const newCart = shoppingCart.filter((_item, index) => index !== itemIndex);
+    storage.setLocalStorage('cart', newCart);
     setShoppingCart(newCart);
   };
+
+  /* const handleClick = ({ target }) => {
+    const element = target.parentNode.parentNode;
+    const itemIndex = element.firstChild.innerHTML - 1;
+    const getProduct = shoppingCart.find((_item, index) => index === itemIndex);
+    setShoppingCart(newCart);
+  }; */
 
   const multiply = (price, amount) => {
     const result = price * amount;
