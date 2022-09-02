@@ -7,6 +7,7 @@ import Products from './pages/products';
 import Checkout from './pages/checkout';
 import Logoff from './pages/logoff';
 import MyOrders from './pages/myOrders';
+import OrdersDetails from './pages/orderDetails';
 
 export default function Index() {
   return (
@@ -20,6 +21,7 @@ export default function Index() {
         <Route path="products" element={ <Products /> } />
         <Route path="myorders" element={ <MyOrders /> } />
         <Route path="checkout" element={ <Checkout /> } />
+        <Route path="orders/:id" element={ <OrdersDetails /> } />
       </Route>
     </Routes>
   );
