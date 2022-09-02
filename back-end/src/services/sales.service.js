@@ -23,8 +23,6 @@ const salesAndProducts = async () => {
 };
 
 const findSaleByUserId = async (userId) => {
-  console.log(userId);
-  console.log(typeof userId);
   const saleById = await sale.findAll(
     { where: { userId } },
   );
