@@ -17,11 +17,16 @@ async function makeLogin(email, password) {
     const { data: { token } } = await host.post('/login', loginObj);
     if (token) {
       const data = jwt(token);
-      console.log(data);
       storage.setLocalStorage('token', token);
-      storage.setLocalStorage('name', data.name);
-      storage.setLocalStorage('email', data.email);
-      storage.setLocalStorage('role', data.role);
+      console.log(data);
+      const user = {
+        id: data.id,
+        name: data.name,
+        email: data.email,
+        role: data.role,
+        token,
+      };
+      storage.setLocalStorage('user', user);
       return true;
     }
     Swal.fire({
