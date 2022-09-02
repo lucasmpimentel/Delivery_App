@@ -18,7 +18,14 @@ async function makeLogin(email, password) {
     if (token) {
       const data = jwt(token);
       storage.setLocalStorage('token', token);
-      const user = { name: data.name, email: data.email, role: data.role, token };
+      console.log(data);
+      const user = {
+        id: data.id,
+        name: data.name,
+        email: data.email,
+        role: data.role,
+        token,
+      };
       storage.setLocalStorage('user', user);
       return true;
     }
