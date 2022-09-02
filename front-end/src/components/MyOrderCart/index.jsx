@@ -1,35 +1,38 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom';
 
 export default function MyOrderCart(
   { id, status, data, totalPrice },
 ) {
+  const lengthData = 10;
+  const navigate = useNavigate();
   return (
-    <div>
+    <button type="button" onClick={ () => navigate(`/customer/orders/${id}`) }>
       <div>
-        <h3 data-testid={ `customer_products__element-order-date-${id}` }>
+        <h3 data-testid={ `customer_orders__element-order-id-${id}` }>
           Pedido
           {id}
         </h3>
       </div>
       <div>
-        <h3>
+        <h3 data-testid={ `customer_orders__element-delivery-status-${id}` }>
           {status}
         </h3>
       </div>
       <div>
-        <h4>
-          {data.slice(2, 10).split('-').reverse().join('-')}
-          {/* var dateParts = isoFormatDateString.split("-");
-          var jsDate = new Date(dateParts[0], dateParts[1] - 1, dateParts[2].substr(0,2)); */}
+        <h4 data-testid={ `customer_orders__element-order-date-${id}` }>
+          {
+            data.slice(0, lengthData).split('-').reverse().join('/')
+          }
         </h4>
         <div>
-          <h4>
-            {totalPrice}
+          <h4 data-testid={ `customer_orders__element-card-price-${id}` }>
+            {totalPrice.replace('.', ',')}
           </h4>
         </div>
       </div>
-    </div>
+    </button>
   );
 }
 
