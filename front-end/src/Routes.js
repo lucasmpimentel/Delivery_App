@@ -6,7 +6,6 @@ import Register from './pages/register';
 import Products from './pages/products';
 import Checkout from './pages/checkout';
 import Logoff from './pages/logoff';
-import CheckoutDetails from './pages/checkoutDetails';
 import MyOrders from './pages/myOrders';
 
 export default function Index() {
@@ -21,7 +20,6 @@ export default function Index() {
         <Route path="products" element={ <Products /> } />
         <Route path="myorders" element={ <MyOrders /> } />
         <Route path="checkout" element={ <Checkout /> } />
-        <Route path="checkout/:id" element={ <CheckoutDetails /> } />
       </Route>
     </Routes>
   );
