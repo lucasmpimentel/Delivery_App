@@ -10,7 +10,7 @@ const routes = express.Router();
 
 routes.use(loginRouter);
 routes.use(productsRouter);
-routes.use(authenticateMiddleware, checkoutRouter);
+routes.use(checkoutRouter);
 routes.use('/sales', authenticateMiddleware, salesRouter);
 routes.use('/seller', authenticateMiddleware, sellerRouter);
 
