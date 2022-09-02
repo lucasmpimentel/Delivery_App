@@ -1,12 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default function AdressForm({ adress, setAdress }) {
-  const handleChange = ({ target }) => {
-    const { name, value } = target;
-    setAdress({ ...adress, [name]: value });
-  };
-
+export default function AdressForm({ delivery, setDelivery }) {
   return (
     <form>
       <label htmlFor="seller">
@@ -14,8 +9,11 @@ export default function AdressForm({ adress, setAdress }) {
         <select
           data-testid="customer_checkout__select-seller"
           id="seller"
+          name="sellerId"
+          onChange={ setDelivery }
         >
-          <option>1</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
         </select>
       </label>
       <label htmlFor="street">
@@ -23,8 +21,8 @@ export default function AdressForm({ adress, setAdress }) {
         <input
           id="street"
           name="street"
-          value={ adress.street }
-          onChange={ handleChange }
+          value={ delivery.street }
+          onChange={ setDelivery }
           data-testid="customer_checkout__input-address"
         />
       </label>
@@ -33,8 +31,8 @@ export default function AdressForm({ adress, setAdress }) {
         <input
           id="number"
           name="number"
-          value={ adress.number }
-          onChange={ handleChange }
+          value={ delivery.number }
+          onChange={ setDelivery }
           data-testid="customer_checkout__input-addressNumber"
         />
       </label>
@@ -43,9 +41,10 @@ export default function AdressForm({ adress, setAdress }) {
 }
 
 AdressForm.propTypes = {
-  adress: PropTypes.oneOfType([
+  delivery: PropTypes.oneOfType([
     PropTypes.string,
-    PropTypes.number,
+    PropTypes.string,
+    PropTypes.string,
   ]).isRequired,
-  setAdress: PropTypes.func.isRequired,
+  setDelivery: PropTypes.func.isRequired,
 };

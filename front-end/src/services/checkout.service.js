@@ -5,18 +5,18 @@ import storage from '../utils/storage';
 const URL = process.env.REACT_APP_HOSTNAME;
 const PORT = process.env.REACT_APP_BACKEND_PORT;
 
-const token = storage.getSessionStorage('token');
-
-const host = axios.create({
-  baseURL: `http://${URL}:${PORT}`,
-  headers: { authorization: token },
-  timeout: 10000,
-});
-
 export default async function makeCheckout(checkout) {
   try {
+    const token = storage.getLocalStorage('token');
+
+    const host = axios.create({
+      baseURL: `http://${URL}:${PORT}`,
+      headers: { authorization: token },
+      timeout: 10000,
+    });
+    console.log(checkout);
     const { data: id } = await host.post('/checkout', checkout);
-    return { ...id };
+    return id;
   } catch (err) {
     Swal.fire({
       icon: 'error',

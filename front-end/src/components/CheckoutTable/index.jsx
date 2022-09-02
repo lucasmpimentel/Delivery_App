@@ -1,21 +1,45 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 import context from '../../context/context';
+import storage from '../../utils/storage';
 
 export default function CheckoutTable() {
-  const { shoppingCart } = useContext(context);
-  const [totalValue, setTotalValue] = useState();
+  const {
+    shoppingCart,
+    totalPrice,
+    setTotalPrice,
+    setShoppingCart,
+  } = useContext(context);
 
   useEffect(() => {
-    const total = shoppingCart.reduce((acc, item) => acc + item.itemTotal, 0);
-    console.log(total);
-    setTotalValue(total);
+    if (!shoppingCart || setShoppingCart.length === 0) {
+      const cart = storage.getLocalStorage('cart');
+      if (!cart) return setShoppingCart([]);
+      setShoppingCart(cart);
+    }
+    const total = shoppingCart.reduce((acc, item) => (
+      acc + (Number(item.price) * Number(item.amount))
+    ), 0);
+    setTotalPrice(total.toFixed(2));
   }, [shoppingCart]);
 
   const handleClick = ({ target }) => {
     const element = target.parentNode.parentNode;
     const itemIndex = element.firstChild.innerHTML - 1;
-    const newCart = mockCart.filter((_item, index) => index !== itemIndex);
-    setMockCart(newCart);
+    const newCart = shoppingCart.filter((_item, index) => index !== itemIndex);
+    storage.setLocalStorage('cart', newCart);
+    setShoppingCart(newCart);
+  };
+
+  /* const handleClick = ({ target }) => {
+    const element = target.parentNode.parentNode;
+    const itemIndex = element.firstChild.innerHTML - 1;
+    const getProduct = shoppingCart.find((_item, index) => index === itemIndex);
+    setShoppingCart(newCart);
+  }; */
+
+  const multiply = (price, amount) => {
+    const result = price * amount;
+    return result.toFixed(2).replace('.', ',');
   };
 
   return (
@@ -36,49 +60,45 @@ export default function CheckoutTable() {
             <tr key={ index }>
               <td
                 data-testid={
-                  `customer_checkout__element-order-table-item-number-${index + 1}`
+                  `customer_checkout__element-order-table-item-number-${index}`
                 }
               >
                 {index + 1}
               </td>
               <td
                 data-testid={
-                  `customer_checkout__element-order-table-name-${i.itemName}`
+                  `customer_checkout__element-order-table-name-${index}`
                 }
               >
-                {i.itemName}
+                {i.name}
               </td>
               <td
                 data-testid={
-                  `customer_checkout__element-order-table-quantity-${i.amount}`
+                  `customer_checkout__element-order-table-quantity-${index}`
                 }
               >
                 {i.amount}
               </td>
               <td
                 data-testid={
-                  `customer_checkout__element-order-table-unit-price-
-                  ${i.itemValue.toFixed(2)}
-                  `
+                  `customer_checkout__element-order-table-unit-price-${index}`
                 }
               >
-                {i.itemValue.toFixed(2)}
+                {i.price.replace('.', ',')}
               </td>
               <td
                 data-testid={
-                  `customer_checkout__element-order-table-sub-total-
-                  ${i.itemTotal.toFixed(2)}
-                  `
+                  `customer_checkout__element-order-table-sub-total-${index}`
                 }
               >
-                {i.itemTotal.toFixed(2)}
+                {multiply(i.price, i.amount)}
               </td>
               <td>
                 <button
                   type="button"
                   onClick={ handleClick }
                   data-testid={
-                    `customer_checkout__element-order-table-remove-${index + 1}`
+                    `customer_checkout__element-order-table-remove-${index}`
                   }
                 >
                   Remover
@@ -91,7 +111,7 @@ export default function CheckoutTable() {
           <td
             data-testid="customer_checkout__element-order-total-price"
           >
-            {`Total: R$ ${totalValue}`}
+            {`Total: R$ ${totalPrice.replace('.', ',')}`}
           </td>
         </tr>
       </tbody>

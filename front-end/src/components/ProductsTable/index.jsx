@@ -2,11 +2,11 @@ import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Context from '../../context/context';
 // import productsMock from '../../productsMock';
-import getAllProducts from '../../services/customerProducts.service';
+import getAllProducts from '../../services/products.service';
 
 export default function ProductsTable() {
   const navigate = useNavigate();
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState(null);
   const [localCart, setLocalCart] = useState([]);
   const [localTotal, setLocalTotal] = useState(0);
   const {
@@ -20,10 +20,10 @@ export default function ProductsTable() {
   };
 
   useEffect(() => {
-    if (products.length === 0) {
+    if (!products) {
       fetchProducts();
     }
-  }, [products.length]);
+  }, [products]);
 
   const handleClick = ({ target }) => {
     console.log('target', target);
@@ -56,7 +56,6 @@ export default function ProductsTable() {
       }
 
       if (target.name === '-') {
-        console.log('negativo', target.name);
         const attAmount = localProdFind.amount - 1;
         const attTotalPrice = localProdFind.price * attAmount;
         const attProduct = {
@@ -64,8 +63,8 @@ export default function ProductsTable() {
           amount: attAmount,
           totalPrice: attTotalPrice };
         const filterProds = localCart.filter((product) => product.id !== +(target.value));
-        const attLocal = filterProds.push(attProduct);
-        setLocalCart(attLocal);
+        filterProds.push(attProduct);
+        setLocalCart(filterProds);
         setLocalTotal(+(localTotal + attTotalPrice.toFixed(2)));
       }
     }
@@ -101,11 +100,22 @@ export default function ProductsTable() {
       setLocalTotal(+(localTotal + attProduct.totalPrice.toFixed(2)));
     }
   };
+  const getBtnValue = (id) => {
+    if (!localCart) {
+      return 0;
+    }
+    console.log('local cart', localCart);
+    const itemFound = localCart.some((item) => +item.id === +id);
+
+    if (itemFound) {
+      return localCart.find((item) => +item.id === +id).amount;
+    }
+  };
 
   return (
     <>
       <div>
-        {products.map(({ id, name, price, url_image: urlImage }) => (
+        {products?.map(({ id, name, price, url_image: urlImage }) => (
           <div key={ id }>
             <p
               data-testid={ `customer_products__element-card-price-${id}` }
@@ -138,9 +148,7 @@ export default function ProductsTable() {
               min="0"
               placeholder="0"
               name={ id }
-              value={ localCart?.some((item) => +item.id === +id)
-                ? localCart.find((item) => +item.id === +id).amount
-                : 0 }
+              value={ getBtnValue(id) }
               onChange={ handleChange }
             />
             <button
