@@ -78,7 +78,6 @@ export default function Products() {
   };
 
   const handleSubmitCart = () => {
-    setShoppingCart(shoppingCart);
     storage.setLocalStorage('cart', shoppingCart);
     navigate('/customer/checkout');
   };
@@ -97,7 +96,7 @@ export default function Products() {
       }
       setIsDisabled(true);
     }
-    const total = shoppingCart.reduce((acc, item) => (
+    const total = shoppingCart?.reduce((acc, item) => (
       acc + (Number(item.price) * Number(item.amount))
     ), 0);
     setTotalPrice(total.toFixed(2).replace('.', ','));
