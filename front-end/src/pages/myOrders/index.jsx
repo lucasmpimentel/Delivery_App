@@ -1,4 +1,4 @@
-import { useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 import MyOrderCart from '../../components/MyOrderCart';
 import makeMyOrders from '../../services/myOrders.service';
 
