@@ -5,7 +5,7 @@ export default class Checkout {
 
   totalPrice;
 
-  deliveryAdress;
+  deliveryAddress;
 
   deliveryNumber;
 
@@ -15,8 +15,11 @@ export default class Checkout {
     this.userId = user;
     this.sellerId = delivery.sellerId;
     this.totalPrice = total;
-    this.deliveryAdress = delivery.street;
+    this.deliveryAddress = delivery.street;
     this.deliveryNumber = delivery.number;
-    this.itens = itens.map((item) => ({ productId: item.id, quantity: item.amount }));
+    this.itens = itens.map((item) => ({
+      productId: item.id,
+      quantity: item.amount,
+    }));
   }
 }
