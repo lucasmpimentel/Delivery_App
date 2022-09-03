@@ -8,14 +8,13 @@ import orders from '../../services/orders.service';
 export default function OrderDetails() {
   const { sessionUser, userOrders, setUserOrders } = useContext(Context);
 
-  const fetchData = async () => {
-    const data = await orders.getAllOrders(sessionUser.id);
-    setUserOrders(data);
-  };
-
   useEffect(() => {
+    const fetchData = async () => {
+      const data = await orders.getAllOrders(sessionUser.id);
+      setUserOrders(data);
+    };
     fetchData();
-  }, []);
+  }, [setUserOrders, sessionUser]);
 
   return (
     <>
