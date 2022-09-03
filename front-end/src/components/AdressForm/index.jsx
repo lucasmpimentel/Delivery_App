@@ -1,7 +1,22 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import Seller from '../../services/seller.service';
 
 export default function AdressForm({ delivery, setDelivery }) {
+  const [sellersList, setSellersList] = useState(null);
+
+  const getSellers = async () => {
+    const sellers = await Seller.getAll();
+    console.log(sellers);
+    setSellersList(sellers);
+  };
+
+  useEffect(() => {
+    if (!sellersList) {
+      getSellers();
+    }
+  }, []);
+
   return (
     <form>
       <label htmlFor="seller">
@@ -12,8 +27,8 @@ export default function AdressForm({ delivery, setDelivery }) {
           name="sellerId"
           onChange={ setDelivery }
         >
-          <option value="1">1</option>
-          <option value="2">2</option>
+          {sellersList && sellersList?.map(({ id, name }) => (
+            <option key={ id } value={ id }>{name}</option>))}
         </select>
       </label>
       <label htmlFor="street">

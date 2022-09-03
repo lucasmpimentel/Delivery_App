@@ -10,34 +10,12 @@ import makeCheckout from '../../services/checkout.service';
 export default function CheckoutPage() {
   const navigate = useNavigate();
   const { shoppingCart, totalPrice, sessionUser } = useContext(Context);
-  const [delivery, setDelivery] = useState({ sellerId: '', street: '', number: '' });
-
-  /* -------------Modelo para o Back ----------
-    {
-      "userId": 2,
-      "sellerId": 1, ------------  - Qual o endpoint -
-      "totalPrice": 26.30,
-      "deliveryAddress": "Rua A",
-      "deliveryNumber": "Rua B",
-      "itens": [{
-        "productId": 5,
-        "quantity": 12
-      },
-      {
-        "productId": 2,
-        "quantity": 16
-      },
-      {
-        "productId": 8,
-        "quantity": 3
-      }]
-    }
-  ------------------------------------------------ */
+  const [delivery, setDelivery] = useState({ sellerId: '2', street: '', number: '' });
 
   const handleClick = async () => {
     const checkout = new Checkout(sessionUser.id, delivery, totalPrice, shoppingCart);
     const orderId = await makeCheckout(checkout);
-    navigate(`/customer/checkout/${orderId}`);
+    navigate(`/customer/orders/${orderId}`);
   };
 
   const handleChange = ({ target }) => {
