@@ -33,7 +33,7 @@ export const NavButton = styled(Button)(
   {
     color: 'white',
   },
-);  
+);
 
 export const Div = Styled.div`align-items: center;
   display: flex;

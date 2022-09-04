@@ -3,6 +3,7 @@ import context from '../../context/context';
 import storage from '../../utils/storage';
 
 export default function CheckoutTable() {
+  const ZERO = 0;
   const {
     shoppingCart,
     totalPrice,
@@ -10,15 +11,20 @@ export default function CheckoutTable() {
     setShoppingCart,
   } = useContext(context);
 
+  const recallCart = () => {
+    const cart = storage.getLocalStorage('cart');
+    if (!cart) return setShoppingCart([]);
+    return setShoppingCart(cart);
+  };
+
   useEffect(() => {
-    if (!shoppingCart || setShoppingCart.length === 0) {
-      const cart = storage.getLocalStorage('cart');
-      if (!cart) return setShoppingCart([]);
-      setShoppingCart(cart);
+    if (!shoppingCart || shoppingCart.length === 0) {
+      recallCart();
     }
     const total = shoppingCart.reduce((acc, item) => (
       acc + (Number(item.price) * Number(item.amount))
     ), 0);
+    if (!total) return setTotalPrice(ZERO.toFixed(2));
     setTotalPrice(total.toFixed(2));
   }, [shoppingCart]);
 
@@ -29,13 +35,6 @@ export default function CheckoutTable() {
     storage.setLocalStorage('cart', newCart);
     setShoppingCart(newCart);
   };
-
-  /* const handleClick = ({ target }) => {
-    const element = target.parentNode.parentNode;
-    const itemIndex = element.firstChild.innerHTML - 1;
-    const getProduct = shoppingCart.find((_item, index) => index === itemIndex);
-    setShoppingCart(newCart);
-  }; */
 
   const multiply = (price, amount) => {
     const result = price * amount;
