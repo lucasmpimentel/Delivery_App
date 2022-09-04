@@ -14,7 +14,6 @@ export default async function makeCheckout(checkout) {
       headers: { authorization: token },
       timeout: 10000,
     });
-    console.log(checkout);
     const { data: id } = await host.post('/checkout', checkout);
     return id;
   } catch (err) {

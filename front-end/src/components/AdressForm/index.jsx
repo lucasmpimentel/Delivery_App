@@ -7,7 +7,6 @@ export default function AdressForm({ delivery, setDelivery }) {
 
   const getSellers = async () => {
     const sellers = await Seller.getAll();
-    console.log(sellers);
     setSellersList(sellers);
   };
 

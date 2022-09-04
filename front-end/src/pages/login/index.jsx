@@ -53,7 +53,6 @@ export default function Login() {
     } catch (err) {
       setIsLoading(false);
       setAuthorized(false);
-      console.log(err.message);
     }
   };
 

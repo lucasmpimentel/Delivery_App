@@ -26,11 +26,9 @@ export default function ProductsTable() {
   }, [products]);
 
   const handleClick = ({ target }) => {
-    console.log('target', target);
     const localProdFind = localCart.find((product) => product.id === +(target.value));
 
     if (!localProdFind) {
-      console.log('entrou no primeiro if');
       const prodFind = products.find((product) => product.id === +(target.value));
       const newObj = {
         id: prodFind.id,
@@ -42,7 +40,6 @@ export default function ProductsTable() {
       setLocalTotal(+(localTotal + +(newObj.totalPrice)).toFixed(2));
     } else {
       if (target.name === '+') {
-        console.log('positivo', target.name);
         const attAmount = localProdFind.amount + 1;
         const attTotalPrice = localProdFind.price * attAmount;
         const attProduct = {
@@ -104,7 +101,6 @@ export default function ProductsTable() {
     if (!localCart) {
       return 0;
     }
-    console.log('local cart', localCart);
     const itemFound = localCart.some((item) => +item.id === +id);
 
     if (itemFound) {
