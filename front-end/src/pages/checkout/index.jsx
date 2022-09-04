@@ -6,23 +6,24 @@ import AdressForm from '../../components/AdressForm';
 import Navbar from '../../components/Navbar';
 import Checkout from '../../utils/Checkout';
 import makeCheckout from '../../services/checkout.service';
+import storage from '../../utils/storage';
 
 export default function CheckoutPage() {
   const navigate = useNavigate();
-  const { shoppingCart, totalPrice, sessionUser } = useContext(Context);
+  const { shoppingCart, totalPrice, sessionUser, setShoppingCart } = useContext(Context);
   const [delivery, setDelivery] = useState({ sellerId: '2', street: '', number: '' });
 
   const handleClick = async () => {
     const checkout = new Checkout(sessionUser.id, delivery, totalPrice, shoppingCart);
     const orderId = await makeCheckout(checkout);
+    setShoppingCart([]);
+    storage.setLocalStorage('cart', '');
     navigate(`/customer/orders/${orderId}`);
   };
 
   const handleChange = ({ target }) => {
-    console.log(target.value);
     const { name, value } = target;
     setDelivery({ ...delivery, [name]: value });
-    console.log(delivery);
   };
 
   return (
