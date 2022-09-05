@@ -3,6 +3,7 @@ import { styled } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
 
 export const NavBar = styled(AppBar)(
   {
@@ -15,6 +16,7 @@ export const NavBar = styled(AppBar)(
     position: 'sticky',
     textDecoration: 'none',
     padding: '10px',
+    overflow: 'hidden',
   },
 );
 
@@ -32,6 +34,12 @@ export const ToolBar = styled(Toolbar)(
 export const NavButton = styled(Button)(
   {
     color: 'white',
+  },
+);
+
+export const Typo = styled(Typography)(
+  {
+    textTransform: 'none',
   },
 );
 
