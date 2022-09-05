@@ -49,9 +49,12 @@ export default function Login() {
       setIsLoading(true);
       const { email, password } = user;
       const status = await makeLogin(email, password);
-      setAuthorized(status);
+      const userLocalStorage = JSON.parse(localStorage.getItem('user'));
+      console.log(userLocalStorage); setAuthorized(status);
       setIsLoading(false);
-      if (status) return navigate('/customer/products');
+      if (status && userLocalStorage.role === 'seller') {
+        return navigate('/seller/orders');
+      } if (status) return navigate('/customer/products');
     } catch (err) {
       setIsLoading(false);
       setAuthorized(false);
