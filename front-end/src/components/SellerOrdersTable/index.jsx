@@ -8,7 +8,7 @@ export default function SellerOrdersTable(
   const lengthData = 10;
   const navigate = useNavigate();
   return (
-    <button type="button" onClick={ () => navigate(`/seller/${id}`) }>
+    <button type="button" onClick={ () => navigate(`/seller/orders/${id}`) }>
       <div>
         <h3 data-testid={ `seller_orders__element-order-id-${id}` }>
           Pedido
