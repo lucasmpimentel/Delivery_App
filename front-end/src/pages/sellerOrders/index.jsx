@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import Navbar from '../../components/Navbar';
 import SellerOrdersTable from '../../components/SellerOrdersTable';
 import orders from '../../services/orders.service';
+import Context from '../../context/context';
 
 export default function SellerOrders() {
   const [ordersList, setOrdersList] = useState(null);
