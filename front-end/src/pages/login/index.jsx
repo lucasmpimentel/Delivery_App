@@ -29,7 +29,10 @@ export default function Login() {
     if (authorized || userLogged) {
       setSessionUser({ ...userLogged });
       setAuthorized(true);
-      return navigate('/customer/products');
+      if (userLogged.role === 'administrator') {
+        return navigate('/admin/manage');
+      }
+      return navigate(`/${userLogged.role}`);
     }
     const testEmail = regEx.test(user.email);
     const testPass = user.password.length >= MIN_PASS;

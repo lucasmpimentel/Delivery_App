@@ -1,21 +1,37 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
+import * as My from './style';
+import './status.css';
 
-export default function MyOrderCart(
-  { id, status, data, totalPrice },
-) {
+export default function MyOrderCart({ id, status, data, totalPrice }) {
+  const [statusColor, setStatusColor] = useState('pending');
   const lengthData = 10;
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (status === 'Preparando') {
+      setStatusColor('preparing');
+    } if (status === 'Entregue') {
+      setStatusColor('done');
+    } else {
+      setStatusColor('pending');
+    }
+  }, [status]);
+
   return (
-    <button type="button" onClick={ () => navigate(`/customer/orders/${id}`) }>
+    <My.OrderBtn
+      variant="outlined"
+      onClick={ () => navigate(`/customer/orders/${id}`) }
+    >
       <div>
         <h3 data-testid={ `customer_orders__element-order-id-${id}` }>
           Pedido
+          {' '}
           {id}
         </h3>
       </div>
-      <div>
+      <div className={ statusColor }>
         <h3 data-testid={ `customer_orders__element-delivery-status-${id}` }>
           {status}
         </h3>
@@ -32,7 +48,7 @@ export default function MyOrderCart(
           </h4>
         </div>
       </div>
-    </button>
+    </My.OrderBtn>
   );
 }
 
