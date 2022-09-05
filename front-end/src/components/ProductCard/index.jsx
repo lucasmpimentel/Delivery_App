@@ -1,26 +1,33 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './style.css';
+import CardActions from '@material-ui/core/CardActions';
+import Typography from '@material-ui/core/Typography';
+import * as My from './style';
 
 export default function ProductCard(
-  { id, name, price, urlImage, add, remove, handleAmount, amount },
+  { id, title, price, urlImage, add, remove, handleAmount, amount },
 ) {
   return (
-    <div className="card">
-      <img
-        data-testid={ `customer_products__img-card-bg-image-${id}` }
-        src={ urlImage }
-        alt={ name }
-        className="img"
+    <My.CardContainer>
+      <My.CardHead
+        titleTypographyProps={
+          { 'data-testid': `customer_products__element-card-title-${id}` }
+        }
+        title={ title }
       />
-      <div>
-        <h3
-          data-testid={ `customer_products__element-card-title-${id}` }
-        >
-          {name}
-        </h3>
-        <div>
-          <h4>
+      <My.Image
+        data-testid={ `customer_products__img-card-bg-image-${id}` }
+        src={ String(urlImage) }
+        title={ title }
+        component="img"
+      />
+      <My.Content>
+        <My.Div>
+          <Typography
+            variant="body2"
+            color="textSecondary"
+            component="p"
+          >
             R$
             {' '}
             <span
@@ -28,42 +35,40 @@ export default function ProductCard(
             >
               {price}
             </span>
-          </h4>
-          <div>
-            <button
+          </Typography>
+          <CardActions>
+            <My.IconBtn
               type="button"
               data-testid={ `customer_products__button-card-rm-item-${id}` }
-              name={ id }
-              onClick={ remove }
+              onClick={ () => remove(id) }
             >
               -
-            </button>
-            <input
-              type="text"
-              data-testid={ `customer_products__input-card-quantity-${id}` }
+            </My.IconBtn>
+            <My.Text
+              inputProps={
+                { 'data-testid': `customer_products__input-card-quantity-${id}` }
+              }
               placeholder="0"
-              name={ id }
               value={ amount }
-              onChange={ handleAmount }
+              onChange={ (e) => handleAmount(e, id) }
             />
-            <button
+            <My.IconBtn
               type="button"
               data-testid={ `customer_products__button-card-add-item-${id}` }
-              name={ id }
-              onClick={ add }
+              onClick={ () => add(id) }
             >
               +
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+            </My.IconBtn>
+          </CardActions>
+        </My.Div>
+      </My.Content>
+    </My.CardContainer>
   );
 }
 
 ProductCard.propTypes = {
   id: PropTypes.number.isRequired,
-  name: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
   price: PropTypes.string.isRequired,
   urlImage: PropTypes.string.isRequired,
   add: PropTypes.func.isRequired,
