@@ -17,14 +17,21 @@ export default async function makeCheckout(checkout) {
     const { data: id } = await host.post('/checkout', checkout);
     return id;
   } catch (err) {
+    const SERVER_ERROR = 500;
+    const AUTH_ERROR = 401;
+    const { response: { status } } = err;
+    if (status === SERVER_ERROR || status === AUTH_ERROR) {
+      localStorage.clear();
+      return Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Unauthorized!',
+      }).then(() => window.location.reload());
+    }
     Swal.fire({
       icon: 'error',
       title: 'Oops...',
       text: `${err.message}`,
-      /* footer: `
-      <span data-testid="common_register__element-invalid_register">
-        Invalid register
-      </span>`, */
     });
   }
 }

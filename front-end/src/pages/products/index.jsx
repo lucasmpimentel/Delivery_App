@@ -4,8 +4,8 @@ import Context from '../../context/context';
 import Navbar from '../../components/Navbar';
 import ProductCard from '../../components/ProductCard';
 import products from '../../services/products.service';
-import './style.css';
 import storage from '../../utils/storage';
+import * as My from './style';
 
 export default function Products() {
   const navigate = useNavigate();
@@ -36,7 +36,7 @@ export default function Products() {
     shoppingCart.filter(({ id }) => Number(id) !== Number(clicked))
   );
 
-  const handleAdd = ({ target: { name: clicked } }) => {
+  const handleAdd = (clicked) => {
     const cartItem = cartById(clicked);
     if (cartItem) {
       cartItem.amount = Number(cartItem.amount) + 1;
@@ -47,7 +47,7 @@ export default function Products() {
     return setShoppingCart([...shoppingCart, selItem]);
   };
 
-  const handleRemove = ({ target: { name: clicked } }) => {
+  const handleRemove = (clicked) => {
     const cartItem = cartById(clicked);
     if (cartItem && cartItem.amount > 1) {
       cartItem.amount = Number(cartItem.amount) - 1;
@@ -57,7 +57,7 @@ export default function Products() {
     setShoppingCart(newCar);
   };
 
-  const handleAmount = ({ target: { name: id, value } }) => {
+  const handleAmount = ({ target: { value } }, id) => {
     const cartItem = cartById(id);
     if (!cartItem) {
       const selectedProduct = productById(id);
@@ -90,9 +90,9 @@ export default function Products() {
       setIsDisabled(false);
     } else {
       const recoveryCart = storage.getLocalStorage('cart');
-      if (recoveryCart) {
-        setShoppingCart(recoveryCart);
-        return setIsDisabled(false);
+      if (recoveryCart && recoveryCart.length >= 1) {
+        setIsDisabled(false);
+        return setShoppingCart(recoveryCart);
       }
       setIsDisabled(true);
     }
@@ -105,29 +105,31 @@ export default function Products() {
   return (
     <main>
       <Navbar />
-      <section className="test">
+      <My.Section>
         {
           productsList && productsList.map((prod, index) => (
             <ProductCard
               key={ index }
               id={ prod.id }
-              name={ prod.name }
+              title={ prod.name }
               price={ (prod.price).replace('.', ',') }
               urlImage={ prod.url_image }
               add={ handleAdd }
               remove={ handleRemove }
               handleAmount={ handleAmount }
               amount={ Number(amount(prod.id)) }
-              className="card"
             />
           ))
         }
-      </section>
-      <button
+      </My.Section>
+      <My.Btn
         data-testid="customer_products__button-cart"
         type="button"
         onClick={ handleSubmitCart }
         disabled={ isDisabled }
+        variant="contained"
+        color="primary"
+        size="large"
       >
         Total R$:
         <span
@@ -135,7 +137,7 @@ export default function Products() {
         >
           {totalPrice}
         </span>
-      </button>
+      </My.Btn>
     </main>
   );
 }

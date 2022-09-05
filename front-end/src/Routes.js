@@ -21,7 +21,6 @@ export default function Index() {
         <Route path="products" element={ <Products /> } />
         <Route path="orders" element={ <Orders /> } />
         <Route path="checkout" element={ <Checkout /> } />
-        <Route path="orders/" element={ <OrdersDetails /> } />
         <Route path="orders/:id" element={ <OrdersDetails /> } />
       </Route>
     </Routes>

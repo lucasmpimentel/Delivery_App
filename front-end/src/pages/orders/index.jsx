@@ -1,12 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
+import Context from '../../context/context';
 import MyOrderCart from '../../components/MyOrderCart';
-import makeMyOrders from '../../services/orders.service';
+import orders from '../../services/orders.service';
+import Navbar from '../../components/Navbar';
 
 export default function Orders() {
   const [ordersList, setOrdersList] = useState(null);
+  const { sessionUser } = useContext(Context);
 
   const fetchOrders = async () => {
-    const allOrders = await makeMyOrders();
+    const allOrders = await orders.getAllOrders(sessionUser.id);
     setOrdersList(allOrders);
   };
 
@@ -15,7 +18,8 @@ export default function Orders() {
   }, []);
 
   return (
-    <section>
+    <main>
+      <Navbar />
       { ordersList && ordersList?.map((order) => (
         <MyOrderCart
           key={ order.id }
@@ -25,6 +29,6 @@ export default function Orders() {
           totalPrice={ order.totalPrice }
         />
       ))}
-    </section>
+    </main>
   );
 }

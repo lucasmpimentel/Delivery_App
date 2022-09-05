@@ -18,7 +18,6 @@ export default function Login() {
   const [isDisabled, setIsDisabled] = useState(true);
   const regEx = /^[\w.-]+@[\w.-]+\.[\w]+(\.[\w]+)?$/i;
   const MIN_PASS = 6;
-  const LAST_PAGE = -1;
 
   const handleChange = ({ target }) => {
     const { name, value } = target;
@@ -30,7 +29,10 @@ export default function Login() {
     if (authorized || userLogged) {
       setSessionUser({ ...userLogged });
       setAuthorized(true);
-      return navigate(LAST_PAGE);
+      if (userLogged.role === 'administrator') {
+        return navigate('/admin/manage');
+      }
+      return navigate(`/${userLogged.role}`);
     }
     const testEmail = regEx.test(user.email);
     const testPass = user.password.length >= MIN_PASS;
