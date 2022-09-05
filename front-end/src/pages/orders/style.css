@@ -1,0 +1,7 @@
+.order-section {
+  align-items: flex-start;
+  display: flex;
+  flex-wrap: wrap;
+  min-height: 100vh;
+  min-width: 100vw;
+}

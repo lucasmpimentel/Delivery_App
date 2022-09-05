@@ -1,27 +1,39 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import moment from 'moment';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import Navbar from '../../components/Navbar';
 import Context from '../../context/context';
 import orders from '../../services/orders.service';
 
 export default function OrderDetails() {
-  const { sessionUser, userOrders, setUserOrders } = useContext(Context);
+  const { sessionUser } = useContext(Context);
+  const [userOrder, setUserOrder] = useState();
+  const { id } = useParams();
+
+  const fetchData = async () => {
+    const data = await orders.getAllOrders(sessionUser.id);
+    const order = data.filter((item) => Number(item.id) === Number(id));
+    setUserOrder(order);
+  };
+
+  const fetchSellerData = async () => {
+    const data = await orders.getAllSellerOrders(sessionUser.id);
+    const order = data.filter((item) => Number(item.id) === Number(id));
+    setUserOrder(order);
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      const data = await orders.getAllOrders(sessionUser.id);
-      setUserOrders(data);
-    };
+    if (sessionUser.role === 'seller') {
+      return fetchSellerData();
+    }
     fetchData();
-  }, [setUserOrders, sessionUser]);
+  }, [setUserOrder, sessionUser]);
 
   return (
     <>
       <Navbar />
-      <h2>ORDERS</h2>
       {
-        userOrders.map((order) => (
+        userOrder && userOrder.map((order) => (
           <div key={ order.id }>
             <Link to={ `/customer/orders/${order.id}` }>
 
