@@ -1,0 +1,17 @@
+.pending {
+  background-color: #ccb80075;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.preparing {
+  background-color: #66cc0075;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.done {
+  background-color: #00cc9b75;
+  border-radius: 5px;
+  padding: 10px;
+}

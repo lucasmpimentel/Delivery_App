@@ -1,8 +1,9 @@
 import { useEffect, useState, useContext } from 'react';
 import Context from '../../context/context';
-import MyOrderCart from '../../components/MyOrderCart';
+import MyOrderCart from '../../components/MyOrderCard';
 import orders from '../../services/orders.service';
 import Navbar from '../../components/Navbar';
+import './style.css';
 
 export default function Orders() {
   const [ordersList, setOrdersList] = useState(null);
@@ -20,15 +21,17 @@ export default function Orders() {
   return (
     <main>
       <Navbar />
-      { ordersList && ordersList?.map((order) => (
-        <MyOrderCart
-          key={ order.id }
-          id={ order.id }
-          status={ order.status }
-          data={ order.saleDate }
-          totalPrice={ order.totalPrice }
-        />
-      ))}
+      <section className="order-section">
+        { ordersList && ordersList?.map((order) => (
+          <MyOrderCart
+            key={ order.id }
+            id={ order.id }
+            status={ order.status }
+            data={ order.saleDate }
+            totalPrice={ order.totalPrice }
+          />
+        ))}
+      </section>
     </main>
   );
 }
