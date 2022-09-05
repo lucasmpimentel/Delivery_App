@@ -1,32 +1,37 @@
 import { useEffect, useState } from 'react';
+import Navbar from '../../components/Navbar';
 import SellerOrdersTable from '../../components/SellerOrdersTable';
-import makeMyOrders from '../../services/myOrders.service';
+import orders from '../../services/orders.service';
 
 export default function SellerOrders() {
-  const [ordersList, setOrdersList] = useState([]);
+  const [ordersList, setOrdersList] = useState(null);
+  const { sessionUser } = useContext(Context);
 
-  useEffect(
-    async () => {
-      const allOrders = await makeMyOrders();
-      setOrdersList(allOrders);
-    },
-    [],
+  const fetchOrders = async () => {
+    const allOrders = await orders.getAllSellerOrders(sessionUser.id);
+    setOrdersList(allOrders);
+  };
 
-  );
+  useEffect(() => {
+    fetchOrders();
+  }, []);
 
   return (
-    <section>
-      { ordersList && ordersList.map((order) => (
-        <SellerOrdersTable
-          key={ order.id }
-          id={ order.id }
-          status={ order.status }
-          data={ order.saleDate }
-          totalPrice={ order.totalPrice }
-          deliveryAddress={ order.deliveryAddress }
-          deliveryNumber={ order.deliveryNumber }
-        />
-      ))}
-    </section>
+    <main>
+      <Navbar />
+      <section className="order-section">
+        { ordersList && ordersList.map((order) => (
+          <SellerOrdersTable
+            key={ order.id }
+            id={ order.id }
+            status={ order.status }
+            data={ order.saleDate }
+            totalPrice={ order.totalPrice }
+            deliveryAddress={ order.deliveryAddress }
+            deliveryNumber={ order.deliveryNumber }
+          />
+        ))}
+      </section>
+    </main>
   );
 }
