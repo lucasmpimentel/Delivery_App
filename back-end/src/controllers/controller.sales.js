@@ -21,4 +21,16 @@ const getSaleByUserId = async (req, res) => {
   res.status(200).json(response);
 };
 
-module.exports = { getAllSales, getSale, getSalesAndProducts, getSaleByUserId };
+const getSaleDetailsByUserId = async (req, res) => {
+  const { id } = req.params;
+  const response = await salesService.getSaleDetailsByUser(id);
+  res.status(200).json(response);
+};
+
+module.exports = {
+  getAllSales,
+  getSale,
+  getSalesAndProducts,
+  getSaleByUserId,
+  getSaleDetailsByUserId,
+};

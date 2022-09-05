@@ -287,6 +287,8 @@ $RECYCLE.BIN/
 
 .vscode
 .coverage
+.prettierrc
+.prettierrc.json
 
 node_modules
 report-*.log
