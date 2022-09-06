@@ -1,12 +1,19 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTheme } from '@material-ui/styles';
 import Context from '../../context/context';
 import makeLogin from '../../services/login.service';
 import auth from '../../utils/auth';
+import * as My from './style';
+import animation from '../../assets/images/OrangeAnimation.svg';
+import logo from '../../assets/images/logo.png';
+import Input from '../../components/shared/Input';
+import Button from '../../components/shared/Button';
 // import Loading from '../../components/Loading';
 
 export default function Login() {
   const navigate = useNavigate();
+  const theme = useTheme;
   const {
     // isLoading,
     // setIsLoading,
@@ -32,8 +39,8 @@ export default function Login() {
       if (userLogged.role === 'administrator') {
         return navigate('/admin/manage');
       }
-      // return navigate(`/${userLogged.role}`);
-      return navigate('/seller/orders/3');
+      return navigate(`/${userLogged.role}`);
+      /* return navigate('/seller/orders/3'); */
     }
     const testEmail = regEx.test(user.email);
     const testPass = user.password.length >= MIN_PASS;
@@ -66,43 +73,58 @@ export default function Login() {
   //   <Loading />
   // ) : (
   return (
-    <main>
-      <form onSubmit={ handleSubmit }>
-        <input
-          aria-label="email"
-          id="email"
-          data-testid="common_login__input-email"
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={ user.email }
-          onChange={ handleChange }
-        />
-        <input
-          aria-label="password"
-          id="password"
-          data-testid="common_login__input-password"
-          type="password"
-          name="password"
-          placeholder="Senha"
-          value={ user.password }
-          onChange={ handleChange }
-        />
-        <button
-          data-testid="common_login__button-login"
-          type="submit"
-          disabled={ isDisabled }
-        >
-          Entrar
-        </button>
-        <button
-          data-testid="common_login__button-register"
-          type="button"
-          onClick={ () => navigate('/register') }
-        >
-          Cadastre-se!
-        </button>
-      </form>
-    </main>
+    <My.Main>
+      <My.Img src={ animation } alt="Delivery App" />
+      <div>
+        <My.Form onSubmit={ handleSubmit }>
+          <My.Logo src={ logo } alt="Delivery App Logo" />
+          {/* <TextField id="outlined-basic" label="Outlined" variant="outlined" /> */}
+          <Input
+            aria-label="email"
+            id="email"
+            inputProps={
+              { 'data-testid': 'common_login__input-email' }
+            }
+            type="email"
+            name="email"
+            variant="standard"
+            placeholder="Email"
+            value={ user.email }
+            onChange={ handleChange }
+          />
+          <Input
+            aria-label="password"
+            id="password"
+            inputProps={
+              { 'data-testid': 'common_login__input-password' }
+            }
+            type="password"
+            name="password"
+            variant="standard"
+            placeholder="Senha"
+            value={ user.password }
+            onChange={ handleChange }
+          />
+          <Button
+            data-testid="common_login__button-login"
+            type="submit"
+            color={ theme.primary }
+            disabled={ isDisabled }
+            variant="contained"
+          >
+            Entrar
+          </Button>
+          <Button
+            data-testid="common_login__button-register"
+            type="button"
+            color={ theme.primary }
+            variant="contained"
+            onClick={ () => navigate('/register') }
+          >
+            Cadastre-se!
+          </Button>
+        </My.Form>
+      </div>
+    </My.Main>
   );
 }
