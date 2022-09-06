@@ -19,7 +19,7 @@ export default function Index() {
       <Route path="logout" element={ <Logoff /> } />
       <Route path="seller" element={ <AuthSeller /> }>
         <Route index element={ <Navigate to="orders" /> } />
-        <Route path="orders" element={ <Orders /> } />
+        <Route path="orders" element={ <div /> } />
         <Route path="orders/:id" element={ <OrdersDetails /> } />
       </Route>
       <Route path="customer" element={ <Authorizer /> }>
@@ -27,7 +27,7 @@ export default function Index() {
         <Route path="products" element={ <Products /> } />
         <Route path="orders" element={ <Orders /> } />
         <Route path="checkout" element={ <Checkout /> } />
-        <Route path="orders/:id" element={ <OrdersDetails /> } />
+        {/* <Route path="orders/:id" element={ <OrdersDetails /> } /> */}
       </Route>
     </Routes>
   );

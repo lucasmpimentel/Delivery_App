@@ -32,7 +32,8 @@ export default function Login() {
       if (userLogged.role === 'administrator') {
         return navigate('/admin/manage');
       }
-      return navigate(`/${userLogged.role}`);
+      // return navigate(`/${userLogged.role}`);
+      return navigate('/seller/orders/3');
     }
     const testEmail = regEx.test(user.email);
     const testPass = user.password.length >= MIN_PASS;
