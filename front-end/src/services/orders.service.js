@@ -26,4 +26,25 @@ async function getAllOrders(userId) {
   }
 }
 
-export default { getAllOrders };
+async function getAllSellerOrders(sellerId) {
+  try {
+    const token = storage.getLocalStorage('token');
+
+    const host = axios.create({
+      baseURL: `http://${URL}:${PORT}`,
+      headers: { authorization: token },
+      timeout: 10000,
+    });
+
+    const data = await host.get('/sales').then((res) => res.data);
+    return data.filter((sale) => sale.sellerId === sellerId);
+  } catch (err) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Somenthing goes wrong, try again later!',
+    });
+  }
+}
+
+export default { getAllOrders, getAllSellerOrders };

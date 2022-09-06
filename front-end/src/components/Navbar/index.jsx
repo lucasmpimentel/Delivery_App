@@ -20,26 +20,28 @@ export default function Navbar() {
   return (
     <My.NavBar className="nav">
       <My.ToolBar>
-        <My.Div>
-          <My.NavButton onClick={ () => navigate('/customer/products') }>
-            <ShoppingBasketIcon />
-            <My.Typo
-              variant="h6"
-              data-testid="customer_products__element-navbar-link-products"
-            >
-              Produtos
-            </My.Typo>
-          </My.NavButton>
-          <My.NavButton onClick={ () => navigate('/customer/orders') }>
-            <ViewListIcon />
-            <My.Typo
-              variant="h6"
-              data-testid="customer_products__element-navbar-link-orders"
-            >
-              Meus Pedidos
-            </My.Typo>
-          </My.NavButton>
-        </My.Div>
+        { (sessionUser.role === 'customer' || sessionUser.role === 'seller') && (
+          <My.Div>
+            { sessionUser.role === 'customer' && (
+              <My.NavButton onClick={ () => navigate('/customer/products') }>
+                <ShoppingBasketIcon />
+                <My.Typo
+                  variant="h6"
+                  data-testid="customer_products__element-navbar-link-products"
+                >
+                  Produtos
+                </My.Typo>
+              </My.NavButton>)}
+            <My.NavButton onClick={ () => navigate(`/${sessionUser.role}/orders`) }>
+              <ViewListIcon />
+              <My.Typo
+                variant="h6"
+                data-testid="customer_products__element-navbar-link-orders"
+              >
+                Meus Pedidos
+              </My.Typo>
+            </My.NavButton>
+          </My.Div>)}
         <My.Div>
           <My.NavButton onClick={ () => navigate('/') }>
             <AccountBox />

@@ -10,9 +10,9 @@ export default function MyOrderCart({ id, status, data, totalPrice }) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (status === 'PREPARANDO') {
+    if (status === 'Preparando') {
       setStatusColor('preparing');
-    } if (status === 'ENTREGUE') {
+    } if (status === 'Entregue') {
       setStatusColor('done');
     } else {
       setStatusColor('pending');
