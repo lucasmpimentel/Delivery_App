@@ -24,9 +24,13 @@ export default function OrderDetails() {
 
   useEffect(() => {
     if (sessionUser.role === 'seller') {
+      console.log('certo');
       return fetchSellerData();
     }
-    fetchData();
+    if (sessionUser.role === 'customer') {
+      console.log('errado');
+      return fetchData();
+    }
   }, [setUserOrder, sessionUser]);
 
   return (
