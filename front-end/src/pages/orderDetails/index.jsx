@@ -16,7 +16,16 @@ export default function OrderDetails() {
     setUserOrder(order);
   };
 
+  const fetchSellerData = async () => {
+    const data = await orders.getAllSellerOrders(sessionUser.id);
+    const order = data.filter((item) => Number(item.id) === Number(id));
+    setUserOrder(order);
+  };
+
   useEffect(() => {
+    if (sessionUser.role === 'seller') {
+      return fetchSellerData();
+    }
     fetchData();
   }, [setUserOrder, sessionUser]);
 
