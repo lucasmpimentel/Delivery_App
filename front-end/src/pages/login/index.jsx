@@ -3,13 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import Context from '../../context/context';
 import makeLogin from '../../services/login.service';
 import auth from '../../utils/auth';
-import Loading from '../../components/Loading';
+// import Loading from '../../components/Loading';
 
 export default function Login() {
   const navigate = useNavigate();
   const {
-    isLoading,
-    setIsLoading,
+    // isLoading,
+    // setIsLoading,
     setAuthorized,
     authorized,
     setSessionUser,
@@ -47,21 +47,25 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      setIsLoading(true);
+      // setIsLoading(true);
       const { email, password } = user;
       const status = await makeLogin(email, password);
-      setAuthorized(status);
-      setIsLoading(false);
-      if (status) return navigate('/customer/products');
+      const userLocalStorage = JSON.parse(localStorage.getItem('user'));
+      console.log(userLocalStorage); setAuthorized(status);
+      // setIsLoading(false);
+      if (status && userLocalStorage.role === 'seller') {
+        return navigate('/seller/orders');
+      } if (status) return navigate('/customer/products');
     } catch (err) {
-      setIsLoading(false);
+      // setIsLoading(false);
       setAuthorized(false);
     }
   };
 
-  return isLoading ? (
-    <Loading />
-  ) : (
+  // return isLoading ? (
+  //   <Loading />
+  // ) : (
+  return (
     <main>
       <form onSubmit={ handleSubmit }>
         <input
