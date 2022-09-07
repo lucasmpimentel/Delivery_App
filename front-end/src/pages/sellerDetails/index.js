@@ -3,30 +3,36 @@ import { useParams } from 'react-router-dom';
 import moment from 'moment';
 import Navbar from '../../components/Navbar';
 import Context from '../../context/context';
-import sale from '../../services/sale.details';
-import sellerService from '../../services/seller.service';
 import sellerDetails from '../../services/seller.details.service';
+import sellerService from '../../services/seller.service';
 
-export default function OrderDetails() {
+export default function SellerDetails() {
   const ZERO = 0;
   const { sessionUser } = useContext(Context);
   const [userSale, setUserSale] = useState();
   const [saleProducts, setSaleProducts] = useState();
+  const [prepareButton, setPrepareButton] = useState(true);
+  const [dispatchButton, setDispatchButton] = useState(true);
+  const [orderStatus, setOrderStatus] = useState();
   const [totalPrice, setTotalPrice] = useState();
   const [sellerName, setSellerName] = useState();
-  const [orderStatus, setOrderStatus] = useState();
-  const [receivedButton, setReceivedButton] = useState(true);
   const { id } = useParams();
 
   const checkButtonStatus = (status) => {
+    if (status === 'Pendente') {
+      setPrepareButton(false);
+    }
+    if (status === 'Preparando') {
+      setDispatchButton(false);
+    }
     if (status === 'Em Trânsito') {
-      setReceivedButton(false);
+      setDispatchButton(true);
     }
   };
 
   useEffect(() => {
     const fetchSale = async () => {
-      const [data] = await sale.getSale(sessionUser.id, id);
+      const [data] = await sellerDetails.getSale(sessionUser.id, id);
       setUserSale(data);
 
       const serializedProducts = data.salesProducts.map((product) => ({
@@ -66,44 +72,59 @@ export default function OrderDetails() {
     return result.toFixed(2).replace('.', ',');
   };
 
-  const handleReceivedOrder = async () => {
-    const status = await sellerDetails.receiveOrder(id);
+  const handleOrderPreparing = async () => {
+    const status = await sellerDetails.prepareOrder(id);
     setOrderStatus(status);
-    setReceivedButton(true);
+    setPrepareButton(true);
+    setDispatchButton(false);
+  };
+
+  const handleDispatch = async () => {
+    const status = await sellerDetails.dispatchOrder(id);
+    setOrderStatus(status);
+    setDispatchButton(true);
   };
   return (
     <>
       <Navbar />
       <h1>detalhes</h1>
 
-      <p data-testid="customer_order_details__element-order-details-label-order-id">
+      <p data-testid="seller_order_details__element-order-details-label-order-id">
         Pedido
         {' '}
         {id}
       </p>
-      <p data-testid="customer_order_details__element-order-details-label-seller-name">
+      <p data-testid="seller_order_details__element-order-details-label-seller-name">
         P.Vend:
         {' '}
         {sellerName}
       </p>
-      <p data-testid="customer_order_details__element-order-details-label-order-date">
+      <p data-testid="seller_order_details__element-order-details-label-order-date">
         {' '}
         {moment(userSale?.saleDate).format('DD/MM/YYYY')}
       </p>
       <p
-        data-testid="customer_order_details__element-order-details-label-delivery-status"
+        data-testid="seller_order_details__element-order-details-label-delivery-status"
       >
         {' '}
         {orderStatus}
       </p>
       <button
-        data-testid="customer_order_details__button-delivery-check"
+        data-testid="seller_order_details__button-preparing-check"
         type="button"
-        disabled={ receivedButton }
-        onClick={ handleReceivedOrder }
+        disabled={ prepareButton }
+        onClick={ handleOrderPreparing }
       >
-        MARCAR COMO ENTREGUE
+        PREPARAR PEDIDO
 
+      </button>
+      <button
+        data-testid="seller_order_details__button-dispatch-check"
+        type="button"
+        disabled={ dispatchButton }
+        onClick={ handleDispatch }
+      >
+        SAIU PARA ENTREGA
       </button>
       <hr />
 
@@ -123,35 +144,35 @@ export default function OrderDetails() {
               <tr key={ index }>
                 <td
                   data-testid={
-                    `customer_order_details__element-order-table-item-number-${index}`
+                    `seller_order_details__element-order-table-item-number-${index}`
                   }
                 >
                   {index + 1}
                 </td>
                 <td
                   data-testid={
-                    `customer_order_details__element-order-table-name-${index}`
+                    `seller_order_details__element-order-table-name-${index}`
                   }
                 >
                   {i.name}
                 </td>
                 <td
                   data-testid={
-                    `customer_order_details__element-order-table-quantity-${index}`
+                    `seller_order_details__element-order-table-quantity-${index}`
                   }
                 >
                   {i.amount}
                 </td>
                 <td
                   data-testid={
-                    `customer_order_details__element-order-table-unit-price-${index}`
+                    `seller_order_details__element-order-table-unit-price-${index}`
                   }
                 >
                   {i.price.replace('.', ',')}
                 </td>
                 <td
                   data-testid={
-                    `customer_order_details__element-order-table-sub-total-${index}`
+                    `seller_order_details__element-order-table-sub-total-${index}`
                   }
                 >
                   {multiply(i.price, i.amount)}
@@ -161,7 +182,7 @@ export default function OrderDetails() {
           }
           <tr>
             <td
-              data-testid="customer_order_details__element-order-total-price"
+              data-testid="seller_order_details__element-order-total-price"
             >
               {`Total: R$ ${totalPrice?.replace('.', ',')}`}
             </td>
