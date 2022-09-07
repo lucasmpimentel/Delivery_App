@@ -10,6 +10,7 @@ import Logoff from './pages/logoff';
 import Orders from './pages/orders';
 import OrdersDetails from './pages/orderDetails';
 import SellerOrders from './pages/sellerOrders';
+import SellerDetails from './pages/sellerDetails';
 
 export default function Index() {
   return (
@@ -21,7 +22,7 @@ export default function Index() {
       <Route path="seller" element={ <AuthSeller /> }>
         <Route index element={ <Navigate to="orders" /> } />
         <Route path="orders" element={ <SellerOrders /> } />
-        <Route path="orders/:id" element={ <OrdersDetails /> } />
+        <Route path="orders/:id" element={ <SellerDetails /> } />
       </Route>
       <Route path="customer" element={ <Authorizer /> }>
         <Route index element={ <Navigate to="products" /> } />
