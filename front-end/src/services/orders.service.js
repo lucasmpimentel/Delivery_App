@@ -14,7 +14,6 @@ async function getAllOrders(userId) {
       headers: { authorization: token },
       timeout: 10000,
     });
-    console.log('função errada');
     const data = await host.get(`/sales/user/${userId}`).then((res) => res.data);
     return data;
   } catch (err) {

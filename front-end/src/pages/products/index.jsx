@@ -29,14 +29,19 @@ export default function Products() {
   );
 
   const cartById = (clicked) => (
-    shoppingCart.find(({ id }) => Number(id) === Number(clicked))
+    shoppingCart?.find(({ id }) => Number(id) === Number(clicked))
   );
 
   const filterById = (clicked) => (
-    shoppingCart.filter(({ id }) => Number(id) !== Number(clicked))
+    shoppingCart?.filter(({ id }) => Number(id) !== Number(clicked))
   );
 
   const handleAdd = (clicked) => {
+    if (!shoppingCart) {
+      const firstItem = productById(clicked);
+      firstItem.amount = 1;
+      return setShoppingCart([firstItem]);
+    }
     const cartItem = cartById(clicked);
     if (cartItem) {
       cartItem.amount = Number(cartItem.amount) + 1;
@@ -58,6 +63,11 @@ export default function Products() {
   };
 
   const handleAmount = ({ target: { value } }, id) => {
+    if (!shoppingCart) {
+      const firstItem = productById(id);
+      firstItem.amount = value.replace(/^0|-+/, '');
+      return setShoppingCart([firstItem]);
+    }
     const cartItem = cartById(id);
     if (!cartItem) {
       const selectedProduct = productById(id);
@@ -82,24 +92,30 @@ export default function Products() {
     navigate('/customer/checkout');
   };
 
+  const calcTotal = () => {
+    const total = shoppingCart?.reduce((acc, item) => (
+      acc + (Number(item.price) * Number(item.amount))
+    ), 0);
+    setTotalPrice(Number(total));
+  };
+
   useEffect(() => {
     if (!productsList) {
       fetchProducts();
     }
-    if (shoppingCart.length > 0) {
+    if (shoppingCart && shoppingCart.length >= 1) {
+      calcTotal();
       setIsDisabled(false);
     } else {
       const recoveryCart = storage.getLocalStorage('cart');
       if (recoveryCart && recoveryCart.length >= 1) {
+        calcTotal();
         setIsDisabled(false);
-        return setShoppingCart(recoveryCart);
+        setShoppingCart(recoveryCart);
       }
       setIsDisabled(true);
     }
-    const total = shoppingCart?.reduce((acc, item) => (
-      acc + (Number(item.price) * Number(item.amount))
-    ), 0);
-    setTotalPrice(total.toFixed(2).replace('.', ','));
+    if (shoppingCart) calcTotal();
   }, [shoppingCart]);
 
   return (
@@ -128,14 +144,13 @@ export default function Products() {
         onClick={ handleSubmitCart }
         disabled={ isDisabled }
         variant="contained"
-        color="primary"
         size="large"
       >
         Total R$:
         <span
           data-testid="customer_products__checkout-bottom-value"
         >
-          {totalPrice}
+          {Number(totalPrice).toFixed(2).replace('.', ',')}
         </span>
       </My.Btn>
     </main>
