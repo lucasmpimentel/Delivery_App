@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography';
 
 export const NavBar = styled(AppBar)(
   {
+    backgroundColor: '#ff7f35',
     alignItems: 'center',
     color: 'white',
     display: 'flex',

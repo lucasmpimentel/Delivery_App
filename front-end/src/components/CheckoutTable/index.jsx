@@ -1,6 +1,8 @@
 import React, { useEffect, useContext } from 'react';
 import context from '../../context/context';
 import storage from '../../utils/storage';
+import Button from '../shared/Button';
+import * as My from './style';
 
 export default function CheckoutTable() {
   const ZERO = 0;
@@ -13,7 +15,7 @@ export default function CheckoutTable() {
 
   const recallCart = () => {
     const cart = storage.getLocalStorage('cart');
-    if (!cart) return setShoppingCart([]);
+    if (!cart || cart.length === 0) return setShoppingCart([{}]);
     return setShoppingCart(cart);
   };
 
@@ -29,7 +31,7 @@ export default function CheckoutTable() {
   }, [shoppingCart]);
 
   const handleClick = ({ target }) => {
-    const element = target.parentNode.parentNode;
+    const element = target.parentNode.parentNode.parentNode;
     const itemIndex = element.firstChild.innerHTML - 1;
     const newCart = shoppingCart.filter((_item, index) => index !== itemIndex);
     storage.setLocalStorage('cart', newCart);
@@ -42,78 +44,78 @@ export default function CheckoutTable() {
   };
 
   return (
-    <table>
-      <thead>
-        <tr>
-          <td>Item</td>
-          <td>Descrição</td>
-          <td>Quantidade</td>
-          <td>Valor Unitário</td>
-          <td>Sub-total</td>
-          <td>Remover Item</td>
-        </tr>
-      </thead>
-      <tbody>
-        {
-          shoppingCart.map((i, index) => (
-            <tr key={ index }>
-              <td
-                data-testid={
-                  `customer_checkout__element-order-table-item-number-${index}`
-                }
-              >
-                {index + 1}
-              </td>
-              <td
-                data-testid={
-                  `customer_checkout__element-order-table-name-${index}`
-                }
-              >
-                {i.name}
-              </td>
-              <td
-                data-testid={
-                  `customer_checkout__element-order-table-quantity-${index}`
-                }
-              >
-                {i.amount}
-              </td>
-              <td
-                data-testid={
-                  `customer_checkout__element-order-table-unit-price-${index}`
-                }
-              >
-                {i.price.replace('.', ',')}
-              </td>
-              <td
-                data-testid={
-                  `customer_checkout__element-order-table-sub-total-${index}`
-                }
-              >
-                {multiply(i.price, i.amount)}
-              </td>
-              <td>
-                <button
-                  type="button"
-                  onClick={ handleClick }
+    <My.Div>
+      <My.CheckoutTable>
+        <My.THead>
+          <My.Tr>
+            <My.Th>Item</My.Th>
+            <My.Th>Descrição</My.Th>
+            <My.Th>Quantidade</My.Th>
+            <My.Th>Valor Unitário</My.Th>
+            <My.Th>Sub-total</My.Th>
+            <My.Th>Remover Item</My.Th>
+          </My.Tr>
+        </My.THead>
+        <My.TBody>
+          {
+            shoppingCart.map((i, index) => (
+              <My.Tr key={ index }>
+                <My.Td
                   data-testid={
-                    `customer_checkout__element-order-table-remove-${index}`
+                    `customer_checkout__element-order-table-item-number-${index}`
                   }
                 >
-                  Remover
-                </button>
-              </td>
-            </tr>
-          ))
-        }
-        <tr>
-          <td
-            data-testid="customer_checkout__element-order-total-price"
-          >
-            {`Total: R$ ${totalPrice.replace('.', ',')}`}
-          </td>
-        </tr>
-      </tbody>
-    </table>
+                  {index + 1}
+                </My.Td>
+                <My.Td
+                  data-testid={
+                    `customer_checkout__element-order-table-name-${index}`
+                  }
+                >
+                  {i.name}
+                </My.Td>
+                <My.Td
+                  data-testid={
+                    `customer_checkout__element-order-table-quantity-${index}`
+                  }
+                >
+                  {i.amount}
+                </My.Td>
+                <My.Td
+                  data-testid={
+                    `customer_checkout__element-order-table-unit-price-${index}`
+                  }
+                >
+                  {i.price.replace('.', ',')}
+                </My.Td>
+                <My.Td
+                  data-testid={
+                    `customer_checkout__element-order-table-sub-total-${index}`
+                  }
+                >
+                  {multiply(i.price, i.amount)}
+                </My.Td>
+                <My.Td>
+                  <Button
+                    type="button"
+                    onClick={ handleClick }
+                    data-testid={
+                      `customer_checkout__element-order-table-remove-${index}`
+                    }
+                  >
+                    Remover
+                  </Button>
+                </My.Td>
+              </My.Tr>
+            ))
+          }
+        </My.TBody>
+      </My.CheckoutTable>
+      <My.Total
+        data-testid="customer_checkout__element-order-total-price"
+      >
+        {`Total: R$ ${Number(totalPrice).toFixed(2).replace('.', ',')}`}
+      </My.Total>
+    </My.Div>
   );
 }
