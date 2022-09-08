@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Context from '../../context/context';
 import CheckoutTable from '../../components/CheckoutTable';
@@ -6,18 +6,24 @@ import AdressForm from '../../components/AdressForm';
 import Navbar from '../../components/Navbar';
 import Checkout from '../../utils/Checkout';
 import makeCheckout from '../../services/checkout.service';
-import storage from '../../utils/storage';
+import Button from '../../components/shared/Button';
+import * as My from './style';
 
 export default function CheckoutPage() {
   const navigate = useNavigate();
-  const { shoppingCart, totalPrice, sessionUser, setShoppingCart } = useContext(Context);
   const [delivery, setDelivery] = useState({ sellerId: '2', street: '', number: '' });
+  const {
+    shoppingCart,
+    totalPrice,
+    setTotalPrice,
+    sessionUser,
+    setShoppingCart,
+  } = useContext(Context);
 
   const handleClick = async () => {
     const checkout = new Checkout(sessionUser.id, delivery, totalPrice, shoppingCart);
     const orderId = await makeCheckout(checkout);
-    setShoppingCart([]);
-    storage.setLocalStorage('cart', '');
+    localStorage.removeItem('cart');
     navigate(`/customer/orders/${orderId}`);
   };
 
@@ -26,24 +32,28 @@ export default function CheckoutPage() {
     setDelivery({ ...delivery, [name]: value });
   };
 
+  useEffect(() => () => {
+    setShoppingCart(null);
+    setTotalPrice(0);
+  }, [setShoppingCart]);
+
   return (
-    <main>
+    <My.Main>
       <Navbar />
-      <section>
-        <p>Finalizar pedido:</p>
+      <My.TSection>
+        <div>
+          <My.P variant="h4">Detalhes e Endereço para Entrega</My.P>
+          <AdressForm delivery={ delivery } setDelivery={ handleChange } />
+        </div>
         <CheckoutTable />
-      </section>
-      <section>
-        <p>Detalhes e Endereço para Entrega</p>
-        <AdressForm delivery={ delivery } setDelivery={ handleChange } />
-        <button
-          type="button"
-          onClick={ handleClick }
-          data-testid="customer_checkout__button-submit-order"
-        >
-          FINALIZAR PEDIDO
-        </button>
-      </section>
-    </main>
+      </My.TSection>
+      <Button
+        type="button"
+        onClick={ handleClick }
+        data-testid="customer_checkout__button-submit-order"
+      >
+        FINALIZAR PEDIDO
+      </Button>
+    </My.Main>
   );
 }
