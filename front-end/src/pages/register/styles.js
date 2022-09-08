@@ -1,41 +1,50 @@
-import styled from 'styled-components';
+import Styled from 'styled-components';
 
-export const Main = styled.main`align-items: flex-start;
-  background-color: ${({ theme }) => theme.colors.background};
-  /* background-image: url(${bg}); */
-  background-position: center top -250px;
-  background-repeat: no-repeat;
-  background-size: 400%;
-  color: ${({ theme }) => theme.colors.text};
+export const Main = Styled.main`align-items: center;
+  background-color: white;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  min-height: 100vh;
+`;
+
+export const Content = Styled.main`align-items: center;
+  background-color: white;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  min-height: 100vh;
+`;
+
+export const Form = Styled.form`align-items: center;
+  background-color: #00000025;
+  border-radius: 5px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-height: 100vh;
-  min-width: 100vw;
-  padding: 15px;
+  min-height: 430px;
+  padding: 40px;
 `;
 
-export const Title = styled.h1`color: ${({ theme }) => theme.colors.text};
-  font-family: -apple-system , BlinkMacSystemFont , Roboto , Oxygen , Ubuntu , monospace;
-  font-size: 26px;
-  margin-top: 100px;
+export const ArrowBack = Styled.div`
+        background-color: transparent;
+        border: none;
+        border-style: none;
+        box-shadow: none;
+        height: 40px;
+        width: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
 `;
 
-export const Form = styled.form`align-self: center;
-  justify-self: baseline;
-  max-width: 90vw;
-`;
-
-export const Pass = styled.p`color: ${({ theme }) => theme.colors.text};
-  font-family: Roboto , monospace;
-  font-size: 12px;
-  margin-top: 2px;
-  text-transform: lowercase;
-  transition: ease-out 300ms;
-`;
-
-export const CBLabel = styled.label`color: ${({ theme }) => theme.colors.text};
+export const Label = Styled.form`align-items: center;
   display: flex;
-  font-family: -apple-system , BlinkMacSystemFont , Roboto , Oxygen , Ubuntu , monospace;
-  justify-content: space-between;
+  font-family: sans-serif;
+  font-size: 8px;
+`;
+
+export const Img = Styled.img`max-width: 50%;
+`;
+
+export const Logo = Styled.img`max-width: 200px;
 `;
