@@ -5,7 +5,7 @@ import Context from './context';
 function Provider({ children }) {
   const [isLoading, setIsLoading] = useState(false);
   const [authorized, setAuthorized] = useState(false);
-  const [shoppingCart, setShoppingCart] = useState([]);
+  const [shoppingCart, setShoppingCart] = useState(null);
   const [totalPrice, setTotalPrice] = useState(0);
   const [userOrders, setUserOrders] = useState([]);
   const [sessionUser, setSessionUser] = useState({
