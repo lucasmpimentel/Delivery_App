@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import PropTypes, { oneOfType } from 'prop-types';
 import Seller from '../../services/seller.service';
 import Input from '../shared/Input';
 import * as My from './style';
@@ -67,6 +67,8 @@ export default function AdressForm({ delivery, setDelivery }) {
 }
 
 AdressForm.propTypes = {
-  delivery: PropTypes.object.isRequired,
+  delivery: PropTypes.objectOf(oneOfType([
+    PropTypes.string,
+  ])).isRequired,
   setDelivery: PropTypes.func.isRequired,
 };
