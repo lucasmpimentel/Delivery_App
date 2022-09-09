@@ -1,20 +1,28 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import moment from 'moment';
+import { Typography } from '@material-ui/core';
 import Navbar from '../../components/Navbar';
 import Context from '../../context/context';
 import sale from '../../services/sale.details';
 import sellerService from '../../services/seller.service';
 import sellerDetails from '../../services/seller.details.service';
+import OrdersDetailTable from '../../components/OrdersDetailTable';
+import MyOrderDetails from '../../components/MyOrderDetails';
+import * as My from './style';
 
 export default function OrderDetails() {
   const ZERO = 0;
-  const { sessionUser } = useContext(Context);
-  const [userSale, setUserSale] = useState();
-  const [saleProducts, setSaleProducts] = useState();
-  const [totalPrice, setTotalPrice] = useState();
-  const [sellerName, setSellerName] = useState();
-  const [orderStatus, setOrderStatus] = useState();
+  const {
+    sessionUser,
+    setTotalPrice,
+    saleProducts,
+    setSaleProducts,
+    userSale,
+    setUserSale,
+    setSellerName,
+    setOrderStatus,
+  } = useContext(Context);
+
   const [receivedButton, setReceivedButton] = useState(true);
   const { id } = useParams();
 
@@ -61,113 +69,29 @@ export default function OrderDetails() {
     }
   }, [saleProducts]);
 
-  const multiply = (price, amount) => {
-    const result = price * amount;
-    return result.toFixed(2).replace('.', ',');
-  };
-
   const handleReceivedOrder = async () => {
     const status = await sellerDetails.receiveOrder(id);
     setOrderStatus(status);
     setReceivedButton(true);
   };
   return (
-    <>
+    <My.Main>
       <Navbar />
-      <h1>detalhes</h1>
-
-      <p data-testid="customer_order_details__element-order-details-label-order-id">
-        Pedido
-        {' '}
-        {id}
-      </p>
-      <p data-testid="customer_order_details__element-order-details-label-seller-name">
-        P.Vend:
-        {' '}
-        {sellerName}
-      </p>
-      <p data-testid="customer_order_details__element-order-details-label-order-date">
-        {' '}
-        {moment(userSale?.saleDate).format('DD/MM/YYYY')}
-      </p>
-      <p
-        data-testid="customer_order_details__element-order-details-label-delivery-status"
-      >
-        {' '}
-        {orderStatus}
-      </p>
-      <button
-        data-testid="customer_order_details__button-delivery-check"
-        type="button"
-        disabled={ receivedButton }
-        onClick={ handleReceivedOrder }
-      >
-        MARCAR COMO ENTREGUE
-
-      </button>
-      <hr />
-
-      <table>
-        <thead>
-          <tr>
-            <td>Item</td>
-            <td>Descrição</td>
-            <td>Quantidade</td>
-            <td>Valor Unitário</td>
-            <td>Sub-total</td>
-          </tr>
-        </thead>
-        <tbody>
-          {
-            saleProducts?.map((i, index) => (
-              <tr key={ index }>
-                <td
-                  data-testid={
-                    `customer_order_details__element-order-table-item-number-${index}`
-                  }
-                >
-                  {index + 1}
-                </td>
-                <td
-                  data-testid={
-                    `customer_order_details__element-order-table-name-${index}`
-                  }
-                >
-                  {i.name}
-                </td>
-                <td
-                  data-testid={
-                    `customer_order_details__element-order-table-quantity-${index}`
-                  }
-                >
-                  {i.amount}
-                </td>
-                <td
-                  data-testid={
-                    `customer_order_details__element-order-table-unit-price-${index}`
-                  }
-                >
-                  {i.price.replace('.', ',')}
-                </td>
-                <td
-                  data-testid={
-                    `customer_order_details__element-order-table-sub-total-${index}`
-                  }
-                >
-                  {multiply(i.price, i.amount)}
-                </td>
-              </tr>
-            ))
-          }
-          <tr>
-            <td
-              data-testid="customer_order_details__element-order-total-price"
-            >
-              {`Total: R$ ${totalPrice?.replace('.', ',')}`}
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </>
+      <My.Title variant="h3">Detalhes</My.Title>
+      <My.Section>
+        <MyOrderDetails />
+        <My.Div>
+          <button
+            data-testid="customer_order_details__button-delivery-check"
+            type="button"
+            disabled={ receivedButton }
+            onClick={ handleReceivedOrder }
+          >
+            MARCAR COMO ENTREGUE
+          </button>
+          <OrdersDetailTable />
+        </My.Div>
+      </My.Section>
+    </My.Main>
   );
 }
