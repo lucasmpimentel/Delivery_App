@@ -1,3 +1,4 @@
+import { Typography } from '@material-ui/core';
 import React, { useEffect, useContext } from 'react';
 import context from '../../context/context';
 import storage from '../../utils/storage';
@@ -114,7 +115,9 @@ export default function CheckoutTable() {
       <My.Total
         data-testid="customer_checkout__element-order-total-price"
       >
-        {`Total: R$ ${Number(totalPrice).toFixed(2).replace('.', ',')}`}
+        <Typography variant="button">
+          {`Total: R$ ${Number(totalPrice).toFixed(2).replace('.', ',')}`}
+        </Typography>
       </My.Total>
     </My.Div>
   );

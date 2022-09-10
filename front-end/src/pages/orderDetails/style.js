@@ -17,7 +17,7 @@ export const Main = Styled.main`align-items: flex-start;
   min-width: 100vw;
 `;
 
-export const Section = Styled.section`align-items: flex-start;
+export const Section = Styled.section`align-content: flex-start;
   display: flex;
   justify-content: space-between;
   min-height: 100%;
@@ -28,5 +28,7 @@ export const Section = Styled.section`align-items: flex-start;
 export const Div = Styled.div`align-items: center;
   display: flex;
   flex-direction: column;
-  min-width: 70%;
+  justify-content: space-between;
+  min-height: 100%;
+  min-width: 68%;
 `;

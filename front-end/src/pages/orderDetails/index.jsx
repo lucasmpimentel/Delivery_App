@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Typography } from '@material-ui/core';
 import Navbar from '../../components/Navbar';
 import Context from '../../context/context';
 import sale from '../../services/sale.details';
@@ -8,6 +7,7 @@ import sellerService from '../../services/seller.service';
 import sellerDetails from '../../services/seller.details.service';
 import OrdersDetailTable from '../../components/OrdersDetailTable';
 import MyOrderDetails from '../../components/MyOrderDetails';
+import Button from '../../components/shared/Button';
 import * as My from './style';
 
 export default function OrderDetails() {
@@ -81,15 +81,15 @@ export default function OrderDetails() {
       <My.Section>
         <MyOrderDetails />
         <My.Div>
-          <button
+          <OrdersDetailTable />
+          <Button
             data-testid="customer_order_details__button-delivery-check"
             type="button"
             disabled={ receivedButton }
             onClick={ handleReceivedOrder }
           >
             MARCAR COMO ENTREGUE
-          </button>
-          <OrdersDetailTable />
+          </Button>
         </My.Div>
       </My.Section>
     </My.Main>
