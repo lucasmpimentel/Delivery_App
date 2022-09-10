@@ -51,7 +51,7 @@ export const Total = styled(Box)(
     fontSize: '16px',
     fontWeight: '500',
     textAlign: 'center',
-    padding: '20px',
+    padding: '15px',
   },
 );
 
