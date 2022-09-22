@@ -8,6 +8,10 @@ function Provider({ children }) {
   const [shoppingCart, setShoppingCart] = useState(null);
   const [totalPrice, setTotalPrice] = useState(0);
   const [userOrders, setUserOrders] = useState([]);
+  const [saleProducts, setSaleProducts] = useState([]);
+  const [userSale, setUserSale] = useState();
+  const [sellerName, setSellerName] = useState();
+  const [orderStatus, setOrderStatus] = useState();
   const [sessionUser, setSessionUser] = useState({
     id: 0,
     name: '',
@@ -29,10 +33,24 @@ function Provider({ children }) {
     setTotalPrice,
     userOrders,
     setUserOrders,
+    saleProducts,
+    setSaleProducts,
+    sellerName,
+    setSellerName,
+    userSale,
+    setUserSale,
+    orderStatus,
+    setOrderStatus,
   }), [isLoading,
     authorized,
     shoppingCart,
-    totalPrice, sessionUser, userOrders, setUserOrders]);
+    totalPrice,
+    sessionUser,
+    userOrders,
+    saleProducts,
+    userSale,
+    sellerName,
+    orderStatus]);
 
   return (
     <Context.Provider value={ context }>
