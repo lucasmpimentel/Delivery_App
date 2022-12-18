@@ -25,16 +25,16 @@ export const Form = Styled.form`align-items: center;
   padding: 40px;
 `;
 
-export const ArrowBack = Styled.div`
-        background-color: transparent;
-        border: none;
-        border-style: none;
-        box-shadow: none;
-        height: 40px;
-        width: 40px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+export const ArrowBack = Styled.div`align-items: center;
+  background-color: transparent;
+  border: none;
+  border-style: none;
+  box-shadow: none;
+  display: flex;
+  height: 40px;
+  justify-content: center;
+  position: absolute;
+  width: 40px;
 `;
 
 export const Label = Styled.form`align-items: center;
